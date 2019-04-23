@@ -92,7 +92,7 @@ public class Add extends javax.swing.JFrame
 						
 						errorLabel.setText("Priority must be greater than 0!");
 					}
-					else if(!inProgressButton.isEnabled() && !status2RButton.isEnabled() && !status3RButton.isEnabled())
+					else if(!inProgressButton.isEnabled() && !notStartedButton.isEnabled() && !completedButton.isEnabled())
 					{
 						errorLabel.setText("A status must be selected!");
 					}
@@ -108,6 +108,7 @@ public class Add extends javax.swing.JFrame
 						item.setOptionalDate("-"); // If "not started option is chosen, display - for Start/End"
 					else
 						item.setOptionalDate("Today's date; implement later"); // else date of Start/End must be the same as the date it was created
+					Main.addToList(item);
 					setVisible(false);
 					dispose();
 				}

@@ -9,32 +9,52 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.UIManager;
+import javax.swing.table.AbstractTableModel;
+
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import javax.swing.table.DefaultTableModel;
 
 public class Main extends javax.swing.JFrame {
 
 	private JFrame frame;
 	private JTable table;
-	private ArrayList<Item> list;
+	private static ArrayList<Item> list;
 
 	public Main() {
 		list = new ArrayList<Item>();
+		// preset for testing purposes
+		Item test = new Item("someDesc", "04/16");
 		initComponents();
 	}
 
-	public void addToList(Item item) {
+	public static void addToList(Item item) {
 		list.add(item);
-		String[][] data = new String[list.size()][5];
-		for (int i=0; i < list.size(); i++)
+		tableModel newModel = new tableModel();
+		for (int i = 0; i < list.size(); i++)
 		{
-			data[i][0] =  list.get(i).getStatus().name();
-			data[i][1] =  String.valueOf(i + 1);
-			data[i][2] =  list.get(i).getDescription();
-			data[i][3] =  list.get(i).getDueDate();
-			data[i][4] =  list.get(i).getOptionalDate();
+			newModel.setValueAt(statusToSymbol(list.get(i).getStatus()), i, 0);
+			newModel.setValueAt(i + 1, i, 1);
+			newModel.setValueAt(list.get(i).getDescription(), i, 2);
+			newModel.setValueAt(list.get(i).getDueDate(), i, 3);
+			newModel.setValueAt(list.get(i).getOptionalDate(), i, 4);
 		}
 		// display data to table
+		listTable.setModel(newModel);
+	}
+	
+	private static String statusToSymbol(Status s) {
+		switch (s)
+		{
+		case NOT_STARTED:
+			return "o";
+		case IN_PROGRESS:
+			return "~";
+		case COMPLETED:
+			return "-";
+		default:
+			return "x";
+		}
 	}
 
 	// Do Not modify this
@@ -94,10 +114,17 @@ public class Main extends javax.swing.JFrame {
 			}
 		});
 
-		listTable.setModel(new javax.swing.table.DefaultTableModel(
-				new Object[][] { { null, null, null, null, null }, { null, null, null, null, null },
-						{ null, null, null, null, null }, { null, null, null, null, null } },
-				new String[] { "Status", "Priority", "Description", "Due", "Start/End" }));
+		listTable.setModel(new DefaultTableModel(
+			new Object[][] {
+				{null, null, null, null, null},
+				{null, null, null, null, null},
+				{null, null, null, null, null},
+				{null, null, null, null, null},
+			},
+			new String[] {
+				"Status", "Priority", "Description", "Due", "Start/End"
+			}
+		));
 		jScrollPane1.setViewportView(listTable);
 		if (listTable.getColumnModel().getColumnCount() > 0) {
 			listTable.getColumnModel().getColumn(2).setMinWidth(300);
@@ -141,6 +168,48 @@ public class Main extends javax.swing.JFrame {
 
 
 		pack();
+	}
+	
+	
+	static class tableModel extends AbstractTableModel {
+	    private String[] columnNames = { "Status", "Priority", "Description", "Due", "Start/End" };
+	    private Object[][] data = { { null, null, null, null, null }, { null, null, null, null, null },
+				{ null, null, null, null, null }, { null, null, null, null, null } };
+
+	    public int getColumnCount() {
+	        return columnNames.length;
+	    }
+
+	    public int getRowCount() {
+	        return data.length;
+	    }
+
+	    public String getColumnName(int col) {
+	        return columnNames[col];
+	    }
+
+	    public Object getValueAt(int row, int col) {
+	        return data[row][col];
+	    }
+
+	    public Class getColumnClass(int c) {
+	        return getValueAt(0, c).getClass();
+	    }
+
+	    public boolean isCellEditable(int row, int col) {
+	        if (col < 2) {
+	            return false;
+	        } else {
+	            return true;
+	        }
+	    }
+	    
+	    public void setValueAt(Object value, int row, int col) {
+	        data[row][col] = value;
+	        fireTableCellUpdated(row, col);
+	    }
+	    
+	    
 	}
 
 	private void onAddClicked(java.awt.event.ActionEvent evt) {
@@ -214,7 +283,7 @@ public class Main extends javax.swing.JFrame {
 	private javax.swing.JButton saveButton;
 	private javax.swing.JButton printButton;
 	private javax.swing.JPanel jPanel1;
-	private javax.swing.JScrollPane jScrollPane1;
-	private javax.swing.JTable listTable;
+	private static javax.swing.JScrollPane jScrollPane1;
+	private static javax.swing.JTable listTable;
 	// End of variables declaration
 }
