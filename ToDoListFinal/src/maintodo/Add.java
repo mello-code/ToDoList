@@ -12,6 +12,9 @@ import javax.swing.UIManager;
 import javax.swing.JTextField;
 import javax.swing.JRadioButton;
 import javax.swing.SwingConstants;
+import javax.swing.ButtonGroup;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class Add extends javax.swing.JFrame
 {
@@ -37,18 +40,57 @@ public class Add extends javax.swing.JFrame
 		priorityTextField = new javax.swing.JTextField();
 		inProgressButton = new javax.swing.JRadioButton();
 		saveButton = new javax.swing.JButton();
+		saveButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+			}
+		});
 		saveButton.addMouseListener(new MouseAdapter()
 		{
 			@Override
 			public void mouseReleased(MouseEvent e)
 			{
+				//String text = priorityTextField.getText();
+				//System.out.println(Integer.parseInt(text));
 				// When Save button is hit
 				if (descriptionTextField.getText().equals("") || dueDateDayTextField.getText().equals("") || priorityTextField.getText().equals("")
 						|| dueDateMonthTextField.getText().equals("")
 						|| (!inProgressButton.isEnabled() && !status2RButton.isEnabled() && !status3RButton.isEnabled()))
 				{
-					// Display error when conditions are not met
-					errorLabel.setText("Some error occured idk");
+					String priorityText = priorityTextField.getText();
+					//System.out.println(Integer.parseInt(priorityText));
+					try{
+					    int number = Integer.parseInt(priorityText);
+					}catch (NumberFormatException ex) 
+					{
+					    errorLabel.setText("Priorty field must be an integer!");
+					    
+					}
+					if(descriptionTextField.getText().equals(""))
+					{
+						errorLabel.setText("Description field cannot be empty!");
+					}
+					else if(dueDateDayTextField.getText().equals("")) 
+					{
+						errorLabel.setText("Date field cannot be empty!");
+					}
+					else if(dueDateMonthTextField.getText().equals(""))
+					{
+						errorLabel.setText("Date field cannot be empty!");
+					}
+					else if(priorityTextField.getText().equals(""))
+					{
+						errorLabel.setText("Priority field cannot be empty!");
+					}
+					
+					else if(Integer.parseInt(priorityText) < 1)
+					{
+						
+						errorLabel.setText("Priority must be greater than 0!");
+					}
+					else if(!inProgressButton.isEnabled() && !status2RButton.isEnabled() && !status3RButton.isEnabled())
+					{
+						errorLabel.setText("A status must be selected!");
+					}
 				}
 				else
 				{
