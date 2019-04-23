@@ -51,4 +51,24 @@ public class Item
 	{
 		return optionalDate;
 	}
+
+//	public void setPriority(int input)
+//	{
+//		
+//	}
+
+	public void setDescription(String input)
+	{
+		description = input;
+	}
+
+	public void setDueDate(String input)
+	{
+		dueDate = input;
+	}
+
+	public void setOptionalDate(String input)
+	{
+		optionalDate = input;
+	}
 }

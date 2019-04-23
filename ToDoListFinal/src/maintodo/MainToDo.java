@@ -9,6 +9,7 @@ public class MainToDo
 		MainToDoList m = new MainToDoList();
 
 		ArrayList<Item> list = new ArrayList<Item>();
+		
 		m.show();
 	}
 }
