@@ -11,6 +11,7 @@ import javax.swing.JTable;
 import javax.swing.UIManager;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import javax.swing.table.DefaultTableModel;
 
 public class Main extends javax.swing.JFrame {
 
@@ -94,10 +95,18 @@ public class Main extends javax.swing.JFrame {
 			}
 		});
 
-		listTable.setModel(new javax.swing.table.DefaultTableModel(
-				new Object[][] { { null, null, null, null, null }, { null, null, null, null, null },
-						{ null, null, null, null, null }, { null, null, null, null, null } },
-				new String[] { "Status", "Priority", "Description", "Due", "Start/End" }));
+		listTable.setModel(new DefaultTableModel(
+			new Object[][] {
+				{null, null, null, null, null},
+				{null, null, null, null, null},
+				{null, null, null, null, null},
+				{null, null, null, null, null},
+			},
+			new String[] {
+				"Status", "Priority", "Description", "Due", "Start/End"
+			}
+		));
+		listTable.getColumnModel().getColumn(2).setPreferredWidth(311);
 		jScrollPane1.setViewportView(listTable);
 		if (listTable.getColumnModel().getColumnCount() > 0) {
 			listTable.getColumnModel().getColumn(2).setMinWidth(300);
