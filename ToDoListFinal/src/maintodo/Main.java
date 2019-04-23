@@ -29,14 +29,14 @@ public class Main extends javax.swing.JFrame {
 	private void initComponents() {
 
 		addButton = new javax.swing.JButton();
-		jButton2 = new javax.swing.JButton();
-		jButton3 = new javax.swing.JButton();
-		jButton4 = new javax.swing.JButton();
-		jButton5 = new javax.swing.JButton();
+		editButton = new javax.swing.JButton();
+		deleteButton = new javax.swing.JButton();
+		restoreButton = new javax.swing.JButton();
+		saveButton = new javax.swing.JButton();
 		jPanel1 = new javax.swing.JPanel();
 		jScrollPane1 = new javax.swing.JScrollPane();
 		jTable1 = new javax.swing.JTable();
-		jButton7 = new javax.swing.JButton();
+		printButton = new javax.swing.JButton();
 
 		setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -47,23 +47,23 @@ public class Main extends javax.swing.JFrame {
 			}
 		});
 
-		jButton2.setText("Edit");
-		jButton2.addActionListener(new java.awt.event.ActionListener() {
+		editButton.setText("Edit");
+		editButton.addActionListener(new java.awt.event.ActionListener() {
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
 				jButton2ActionPerformed(evt);
 			}
 		});
 
-		jButton3.setText("Delete");
+		deleteButton.setText("Delete");
 
-		jButton4.setText("Restore");
-		jButton4.addActionListener(new java.awt.event.ActionListener() {
+		restoreButton.setText("Restore");
+		restoreButton.addActionListener(new java.awt.event.ActionListener() {
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
 				jButton4ActionPerformed(evt);
 			}
 		});
 
-		jButton5.setText("Save");
+		saveButton.setText("Save");
 
 		jTable1.setModel(new javax.swing.table.DefaultTableModel(
 				new Object[][] { { null, null, null, null, null }, { null, null, null, null, null },
@@ -83,8 +83,8 @@ public class Main extends javax.swing.JFrame {
 				.addGroup(jPanel1Layout.createSequentialGroup().addContainerGap().addComponent(jScrollPane1,
 						javax.swing.GroupLayout.DEFAULT_SIZE, 554, Short.MAX_VALUE)));
 
-		jButton7.setText("Print");
-		jButton7.addActionListener(new java.awt.event.ActionListener() {
+		printButton.setText("Print");
+		printButton.addActionListener(new java.awt.event.ActionListener() {
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
 				jButton7ActionPerformed(evt);
 			}
@@ -94,11 +94,11 @@ public class Main extends javax.swing.JFrame {
 		getContentPane().setLayout(layout);
 		layout.setHorizontalGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
 				.addGroup(layout.createSequentialGroup().addContainerGap().addComponent(addButton).addGap(18, 18, 18)
-						.addComponent(jButton2).addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-						.addComponent(jButton3).addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-						.addComponent(jButton4).addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-						.addComponent(jButton5).addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-						.addComponent(jButton7).addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+						.addComponent(editButton).addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+						.addComponent(deleteButton).addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+						.addComponent(restoreButton).addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+						.addComponent(saveButton).addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+						.addComponent(printButton).addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
 				.addGroup(javax.swing.GroupLayout.Alignment.TRAILING,
 						layout.createSequentialGroup().addContainerGap(12, Short.MAX_VALUE)
 								.addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE,
@@ -109,8 +109,8 @@ public class Main extends javax.swing.JFrame {
 						.addGroup(
 								layout.createSequentialGroup().addContainerGap()
 										.addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-												.addComponent(addButton).addComponent(jButton2).addComponent(jButton3)
-												.addComponent(jButton4).addComponent(jButton5).addComponent(jButton7))
+												.addComponent(addButton).addComponent(editButton).addComponent(deleteButton)
+												.addComponent(restoreButton).addComponent(saveButton).addComponent(printButton))
 										.addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
 										.addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE,
 												javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -178,11 +178,11 @@ public class Main extends javax.swing.JFrame {
 
 	// Variables declaration - do not modify
 	private javax.swing.JButton addButton;
-	private javax.swing.JButton jButton2;
-	private javax.swing.JButton jButton3;
-	private javax.swing.JButton jButton4;
-	private javax.swing.JButton jButton5;
-	private javax.swing.JButton jButton7;
+	private javax.swing.JButton editButton;
+	private javax.swing.JButton deleteButton;
+	private javax.swing.JButton restoreButton;
+	private javax.swing.JButton saveButton;
+	private javax.swing.JButton printButton;
 	private javax.swing.JPanel jPanel1;
 	private javax.swing.JScrollPane jScrollPane1;
 	private javax.swing.JTable jTable1;

@@ -28,11 +28,14 @@ public class Add extends javax.swing.JFrame
 	private void initComponents()
 	{
 		descriptionTextField = new javax.swing.JTextField();
-		jLabel2 = new javax.swing.JLabel();
+		dueDateLabel = new javax.swing.JLabel();
+		dueDateLabel.setHorizontalAlignment(SwingConstants.RIGHT);
 		dueDateDayTextField = new javax.swing.JTextField();
-		jLabel3 = new javax.swing.JLabel();
+		priorityLabel = new javax.swing.JLabel();
+		priorityLabel.setHorizontalAlignment(SwingConstants.RIGHT);
+		dueDateLabel.setHorizontalAlignment(SwingConstants.RIGHT);
 		priorityTextField = new javax.swing.JTextField();
-		status1RButton = new javax.swing.JRadioButton();
+		inProgressButton = new javax.swing.JRadioButton();
 		saveButton = new javax.swing.JButton();
 		saveButton.addMouseListener(new MouseAdapter()
 		{
@@ -42,7 +45,7 @@ public class Add extends javax.swing.JFrame
 				// When Save button is hit
 				if (descriptionTextField.getText().equals("") || dueDateDayTextField.getText().equals("") || priorityTextField.getText().equals("")
 						|| dueDateMonthTextField.getText().equals("")
-						|| (!status1RButton.isEnabled() && !status2RButton.isEnabled() && !status3RButton.isEnabled()))
+						|| (!inProgressButton.isEnabled() && !status2RButton.isEnabled() && !status3RButton.isEnabled()))
 				{
 					// Display error when conditions are not met
 					errorLabel.setText("Some error occured idk");
@@ -53,7 +56,7 @@ public class Add extends javax.swing.JFrame
 					Item item = new Item();
 					item.setDescription(dueDateDayTextField.getText());
 					item.setDueDate(priorityTextField.getText() + "/" + dueDateMonthTextField.getText());
-					if (status1RButton.isEnabled())
+					if (inProgressButton.isEnabled())
 						item.setOptionalDate("-"); // If "not started option is chosen, display - for Start/End"
 					else
 						item.setOptionalDate("Today's date; implement later"); // else date of Start/End must be the same as the date it was created
@@ -73,7 +76,7 @@ public class Add extends javax.swing.JFrame
 
 		setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-		jLabel2.setText("Due Date:");
+		dueDateLabel.setText("Due Date:");
 
 		dueDateDayTextField.addActionListener(new java.awt.event.ActionListener()
 		{
@@ -83,7 +86,7 @@ public class Add extends javax.swing.JFrame
 			}
 		});
 
-		jLabel3.setText("Priority:");
+		priorityLabel.setText("Priority:");
 
 		priorityTextField.addActionListener(new java.awt.event.ActionListener()
 		{
@@ -93,8 +96,8 @@ public class Add extends javax.swing.JFrame
 			}
 		});
 
-		status1RButton.setText("Not Started");
-		status1RButton.addActionListener(new java.awt.event.ActionListener()
+		inProgressButton.setText("In Progress");
+		inProgressButton.addActionListener(new java.awt.event.ActionListener()
 		{
 			public void actionPerformed(java.awt.event.ActionEvent evt)
 			{
@@ -117,115 +120,107 @@ public class Add extends javax.swing.JFrame
 		errorLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		errorLabel.setForeground(Color.RED);
 		
-		lblDetails = new JLabel("Details  \u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014");
+		detailLabel = new JLabel("Details —————————————————————————————");
 		
-		label = new JLabel();
-		label.setText("Description:");
+		decriptionLabel = new JLabel();
+		decriptionLabel.setHorizontalAlignment(SwingConstants.RIGHT);
+		decriptionLabel.setText("Description:");
 		
 		dueDateMonthTextField = new JTextField();
 		
-		label_1 = new JLabel();
-		label_1.setText("/");
+		slash = new JLabel();
+		slash.setText("/");
 		
-		lblStatus = new JLabel();
-		lblStatus.setText("Status:");
+		statusLabel = new JLabel();
+		statusLabel.setHorizontalAlignment(SwingConstants.RIGHT);
+		statusLabel.setText("Status:");
 		
-		JRadioButton status2RButton = new JRadioButton();
-		status2RButton.setText("Not Started");
+		JRadioButton notStartedButton = new JRadioButton();
+		notStartedButton.setText("Not Started");
 		
-		JRadioButton Status3RButton = new JRadioButton();
-		Status3RButton.setText("Not Started");
-		
-		label_2 = new JLabel("                                              ");
+		JRadioButton completedButton = new JRadioButton();
+		completedButton.setText("Completed");
 
 		javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
 		layout.setHorizontalGroup(
 			layout.createParallelGroup(Alignment.LEADING)
 				.addGroup(layout.createSequentialGroup()
+					.addContainerGap()
 					.addGroup(layout.createParallelGroup(Alignment.TRAILING)
 						.addGroup(layout.createSequentialGroup()
-							.addContainerGap()
-							.addGroup(layout.createParallelGroup(Alignment.TRAILING)
-								.addComponent(label, GroupLayout.PREFERRED_SIZE, 65, GroupLayout.PREFERRED_SIZE)
-								.addComponent(jLabel2)
-								.addComponent(jLabel3)
-								.addGroup(layout.createSequentialGroup()
-									.addGap(24)
-									.addComponent(lblStatus, GroupLayout.DEFAULT_SIZE, 53, Short.MAX_VALUE)))
 							.addGroup(layout.createParallelGroup(Alignment.LEADING)
+								.addComponent(priorityLabel, GroupLayout.DEFAULT_SIZE, 97, Short.MAX_VALUE)
+								.addComponent(dueDateLabel, GroupLayout.DEFAULT_SIZE, 97, Short.MAX_VALUE)
+								.addComponent(decriptionLabel, GroupLayout.DEFAULT_SIZE, 97, Short.MAX_VALUE)
+								.addComponent(statusLabel, GroupLayout.DEFAULT_SIZE, 97, Short.MAX_VALUE))
+							.addPreferredGap(ComponentPlacement.RELATED, 7, GroupLayout.PREFERRED_SIZE)
+							.addGroup(layout.createParallelGroup(Alignment.LEADING)
+								.addGroup(layout.createSequentialGroup()
+									.addGap(1)
+									.addGroup(layout.createParallelGroup(Alignment.LEADING)
+										.addComponent(inProgressButton)
+										.addComponent(errorLabel, GroupLayout.PREFERRED_SIZE, 278, GroupLayout.PREFERRED_SIZE)
+										.addComponent(notStartedButton, GroupLayout.PREFERRED_SIZE, 143, GroupLayout.PREFERRED_SIZE)
+										.addComponent(completedButton, GroupLayout.PREFERRED_SIZE, 117, GroupLayout.PREFERRED_SIZE)))
 								.addGroup(layout.createSequentialGroup()
 									.addGap(6)
 									.addGroup(layout.createParallelGroup(Alignment.LEADING)
-										.addComponent(descriptionTextField, GroupLayout.PREFERRED_SIZE, 175, GroupLayout.PREFERRED_SIZE)
+										.addComponent(descriptionTextField, GroupLayout.PREFERRED_SIZE, 258, GroupLayout.PREFERRED_SIZE)
 										.addGroup(layout.createSequentialGroup()
 											.addGroup(layout.createParallelGroup(Alignment.LEADING, false)
 												.addComponent(priorityTextField)
 												.addGroup(layout.createSequentialGroup()
 													.addComponent(dueDateDayTextField, GroupLayout.PREFERRED_SIZE, 36, GroupLayout.PREFERRED_SIZE)
 													.addGap(6)
-													.addComponent(label_1, GroupLayout.PREFERRED_SIZE, 3, GroupLayout.PREFERRED_SIZE)))
-											.addGap(6)
-											.addComponent(dueDateMonthTextField, GroupLayout.PREFERRED_SIZE, 36, GroupLayout.PREFERRED_SIZE))))
-								.addGroup(layout.createSequentialGroup()
-									.addGap(1)
-									.addGroup(layout.createParallelGroup(Alignment.LEADING)
-										.addComponent(status2RButton, GroupLayout.PREFERRED_SIZE, 89, GroupLayout.PREFERRED_SIZE)
-										.addComponent(status1RButton)
-										.addComponent(Status3RButton, GroupLayout.PREFERRED_SIZE, 89, GroupLayout.PREFERRED_SIZE)
-										.addComponent(errorLabel, GroupLayout.PREFERRED_SIZE, 278, GroupLayout.PREFERRED_SIZE))))
-							.addGap(54))
+													.addComponent(slash)))
+											.addPreferredGap(ComponentPlacement.RELATED)
+											.addComponent(dueDateMonthTextField, GroupLayout.PREFERRED_SIZE, 36, GroupLayout.PREFERRED_SIZE)))))
+							.addGap(25))
 						.addGroup(layout.createSequentialGroup()
-							.addContainerGap()
-							.addComponent(lblDetails)
-							.addGap(30))
-						.addComponent(label_2)
-						.addGroup(layout.createSequentialGroup()
-							.addGap(67)
-							.addComponent(saveButton, GroupLayout.PREFERRED_SIZE, 116, GroupLayout.PREFERRED_SIZE)
-							.addPreferredGap(ComponentPlacement.RELATED, 69, Short.MAX_VALUE)
-							.addComponent(cancelButton, GroupLayout.PREFERRED_SIZE, 116, GroupLayout.PREFERRED_SIZE)
-							.addGap(42)))
+							.addComponent(detailLabel)
+							.addPreferredGap(ComponentPlacement.RELATED)))
 					.addGap(30))
+				.addGroup(layout.createSequentialGroup()
+					.addGap(66)
+					.addComponent(saveButton, GroupLayout.PREFERRED_SIZE, 116, GroupLayout.PREFERRED_SIZE)
+					.addPreferredGap(ComponentPlacement.RELATED, 79, Short.MAX_VALUE)
+					.addComponent(cancelButton, GroupLayout.PREFERRED_SIZE, 116, GroupLayout.PREFERRED_SIZE)
+					.addGap(73))
 		);
 		layout.setVerticalGroup(
 			layout.createParallelGroup(Alignment.LEADING)
 				.addGroup(layout.createSequentialGroup()
-					.addGroup(layout.createParallelGroup(Alignment.LEADING)
-						.addGroup(layout.createSequentialGroup()
-							.addGap(166)
-							.addComponent(Status3RButton))
-						.addGroup(layout.createSequentialGroup()
-							.addContainerGap()
-							.addComponent(lblDetails)
-							.addGap(10)
-							.addGroup(layout.createParallelGroup(Alignment.BASELINE)
-								.addComponent(descriptionTextField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-								.addComponent(label))
-							.addPreferredGap(ComponentPlacement.RELATED)
-							.addGroup(layout.createParallelGroup(Alignment.BASELINE)
-								.addComponent(jLabel2)
-								.addComponent(dueDateDayTextField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-								.addComponent(dueDateMonthTextField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-								.addComponent(label_1))
-							.addPreferredGap(ComponentPlacement.RELATED)
-							.addGroup(layout.createParallelGroup(Alignment.BASELINE)
-								.addComponent(priorityTextField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-								.addComponent(jLabel3))
-							.addGap(8)
-							.addGroup(layout.createParallelGroup(Alignment.BASELINE)
-								.addComponent(lblStatus)
-								.addComponent(status1RButton))
-							.addPreferredGap(ComponentPlacement.RELATED)
-							.addComponent(status2RButton)))
-					.addPreferredGap(ComponentPlacement.UNRELATED)
+					.addContainerGap()
+					.addComponent(detailLabel)
+					.addGap(10)
 					.addGroup(layout.createParallelGroup(Alignment.BASELINE)
-						.addComponent(label_2)
-						.addComponent(errorLabel))
+						.addComponent(decriptionLabel)
+						.addComponent(descriptionTextField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
 					.addPreferredGap(ComponentPlacement.RELATED)
+					.addGroup(layout.createParallelGroup(Alignment.BASELINE)
+						.addComponent(dueDateLabel)
+						.addComponent(dueDateDayTextField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+						.addComponent(dueDateMonthTextField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+						.addComponent(slash))
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addGroup(layout.createParallelGroup(Alignment.BASELINE)
+						.addComponent(priorityTextField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+						.addComponent(priorityLabel))
+					.addGap(8)
+					.addGroup(layout.createParallelGroup(Alignment.BASELINE)
+						.addComponent(inProgressButton)
+						.addComponent(statusLabel))
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addComponent(notStartedButton)
+					.addGap(6)
+					.addComponent(completedButton)
+					.addPreferredGap(ComponentPlacement.UNRELATED)
+					.addComponent(errorLabel)
+					.addGap(18)
 					.addGroup(layout.createParallelGroup(Alignment.BASELINE)
 						.addComponent(cancelButton, GroupLayout.PREFERRED_SIZE, 31, GroupLayout.PREFERRED_SIZE)
 						.addComponent(saveButton, GroupLayout.PREFERRED_SIZE, 31, GroupLayout.PREFERRED_SIZE))
-					.addContainerGap(32, Short.MAX_VALUE))
+					.addContainerGap(20, Short.MAX_VALUE))
 		);
 		getContentPane().setLayout(layout);
 
@@ -283,19 +278,18 @@ public class Add extends javax.swing.JFrame
 	// Variables declaration - do not modify//GEN-BEGIN:variables
 	private javax.swing.JButton saveButton;
 	private javax.swing.JButton cancelButton;
-	private javax.swing.JLabel jLabel2;
-	private javax.swing.JLabel jLabel3;
+	private javax.swing.JLabel dueDateLabel;
+	private javax.swing.JLabel priorityLabel;
 	private javax.swing.JLabel errorLabel;
-	private javax.swing.JRadioButton status1RButton;
+	private javax.swing.JRadioButton inProgressButton;
 	private javax.swing.JRadioButton status2RButton;
 	private javax.swing.JRadioButton status3RButton;
 	private javax.swing.JTextField descriptionTextField;
 	private javax.swing.JTextField dueDateDayTextField;
 	private javax.swing.JTextField priorityTextField;
-	private JLabel lblDetails;
-	private JLabel label;
+	private JLabel detailLabel;
+	private JLabel decriptionLabel;
 	private JTextField dueDateMonthTextField;
-	private JLabel label_1;
-	private JLabel lblStatus;
-	private JLabel label_2;
+	private JLabel slash;
+	private JLabel statusLabel;
 }
