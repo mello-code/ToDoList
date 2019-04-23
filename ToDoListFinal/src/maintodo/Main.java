@@ -49,11 +49,6 @@ public class Main extends javax.swing.JFrame {
 		jScrollPane1 = new javax.swing.JScrollPane();
 		listTable = new javax.swing.JTable();
 		printButton = new javax.swing.JButton();
-		printButton.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseReleased(MouseEvent e) {
-			}
-		});
 
 		setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -156,6 +151,8 @@ public class Main extends javax.swing.JFrame {
 
 	private void onEditClicked(java.awt.event.ActionEvent evt) {
 		System.out.println("Edit");
+		Edit editWindow = new Edit();
+		editWindow.show();
 	}
 
 	private void onDeleteClicked(java.awt.event.ActionEvent evt) {
