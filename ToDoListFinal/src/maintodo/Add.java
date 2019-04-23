@@ -92,7 +92,7 @@ public class Add extends javax.swing.JFrame
 						
 						errorLabel.setText("Priority must be greater than 0!");
 					}
-					else if(!inProgressButton.isEnabled() && !status2RButton.isEnabled() && !status3RButton.isEnabled())
+					else if(!inProgressButton.isEnabled() && !notStartedButton.isEnabled() && !completedButton.isEnabled())
 					{
 						errorLabel.setText("A status must be selected!");
 					}
