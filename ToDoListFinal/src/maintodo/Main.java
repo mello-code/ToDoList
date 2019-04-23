@@ -67,20 +67,37 @@ public class Main extends javax.swing.JFrame {
 		editButton.setText("Edit");
 		editButton.addActionListener(new java.awt.event.ActionListener() {
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
-				jButton2ActionPerformed(evt);
+				onEditClicked(evt);
 			}
 		});
 
 		deleteButton.setText("Delete");
+		deleteButton.addActionListener(new java.awt.event.ActionListener() {
+			public void actionPerformed(java.awt.event.ActionEvent evt) {
+				onDeleteClicked(evt);
+			}
+		});
 
 		restoreButton.setText("Restore");
 		restoreButton.addActionListener(new java.awt.event.ActionListener() {
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
-				jButton4ActionPerformed(evt);
+				onRestoreClicked(evt);
 			}
 		});
 
 		saveButton.setText("Save");
+		saveButton.addActionListener(new java.awt.event.ActionListener() {
+			public void actionPerformed(java.awt.event.ActionEvent evt) {
+				onSaveClicked(evt);
+			}
+		});
+		
+		printButton.setText("Print");
+		printButton.addActionListener(new java.awt.event.ActionListener() {
+			public void actionPerformed(java.awt.event.ActionEvent evt) {
+				onPrintClicked(evt);
+			}
+		});
 
 		listTable.setModel(new javax.swing.table.DefaultTableModel(
 				new Object[][] { { null, null, null, null, null }, { null, null, null, null, null },
@@ -99,13 +116,6 @@ public class Main extends javax.swing.JFrame {
 		jPanel1Layout.setVerticalGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
 				.addGroup(jPanel1Layout.createSequentialGroup().addContainerGap().addComponent(jScrollPane1,
 						javax.swing.GroupLayout.DEFAULT_SIZE, 554, Short.MAX_VALUE)));
-
-		printButton.setText("Print");
-		printButton.addActionListener(new java.awt.event.ActionListener() {
-			public void actionPerformed(java.awt.event.ActionEvent evt) {
-				jButton7ActionPerformed(evt);
-			}
-		});
 
 		javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
 		getContentPane().setLayout(layout);
@@ -139,21 +149,29 @@ public class Main extends javax.swing.JFrame {
 	}
 
 	private void onAddClicked(java.awt.event.ActionEvent evt) {
-		System.out.println("Added");
+		System.out.println("Add");
 		Add addWindow = new Add();
 		addWindow.show();
 	}
 
-	private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {
-
+	private void onEditClicked(java.awt.event.ActionEvent evt) {
+		System.out.println("Edit");
 	}
 
-	private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {
-
+	private void onDeleteClicked(java.awt.event.ActionEvent evt) {
+		System.out.println("Delete");
 	}
 
-	private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {
+	private void onRestoreClicked(java.awt.event.ActionEvent evt) {
+		System.out.println("Restore");
+	}
 
+	private void onSaveClicked(java.awt.event.ActionEvent evt) {
+		System.out.println("Save");
+	}
+
+	private void onPrintClicked(java.awt.event.ActionEvent evt) {
+		System.out.println("Print");
 	}
 
 	public static void main(String args[]) {
@@ -174,10 +192,6 @@ public class Main extends javax.swing.JFrame {
 				}
 			}
 		});
-
-	}
-
-	public void actionPerformed(ActionEvent e) {
 
 	}
 
