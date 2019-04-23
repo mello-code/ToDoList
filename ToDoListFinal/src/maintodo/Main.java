@@ -9,6 +9,8 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.UIManager;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class Main extends javax.swing.JFrame {
 
@@ -23,6 +25,16 @@ public class Main extends javax.swing.JFrame {
 
 	public void addToList(Item item) {
 		list.add(item);
+		String[][] data = new String[list.size()][5];
+		for (int i=0; i < list.size(); i++)
+		{
+			data[i][0] =  list.get(i).getStatus().name();
+			data[i][1] =  String.valueOf(i + 1);
+			data[i][2] =  list.get(i).getDescription();
+			data[i][3] =  list.get(i).getDueDate();
+			data[i][4] =  list.get(i).getOptionalDate();
+		}
+		// display data to table
 	}
 
 	// Do Not modify this
@@ -35,8 +47,13 @@ public class Main extends javax.swing.JFrame {
 		jButton5 = new javax.swing.JButton();
 		jPanel1 = new javax.swing.JPanel();
 		jScrollPane1 = new javax.swing.JScrollPane();
-		jTable1 = new javax.swing.JTable();
-		jButton7 = new javax.swing.JButton();
+		listTable = new javax.swing.JTable();
+		printButton = new javax.swing.JButton();
+		printButton.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseReleased(MouseEvent e) {
+			}
+		});
 
 		setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -65,14 +82,14 @@ public class Main extends javax.swing.JFrame {
 
 		jButton5.setText("Save");
 
-		jTable1.setModel(new javax.swing.table.DefaultTableModel(
+		listTable.setModel(new javax.swing.table.DefaultTableModel(
 				new Object[][] { { null, null, null, null, null }, { null, null, null, null, null },
 						{ null, null, null, null, null }, { null, null, null, null, null } },
 				new String[] { "Status", "Priority", "Description", "Due", "Start/End" }));
-		jScrollPane1.setViewportView(jTable1);
-		if (jTable1.getColumnModel().getColumnCount() > 0) {
-			jTable1.getColumnModel().getColumn(2).setMinWidth(300);
-			jTable1.getColumnModel().getColumn(2).setMaxWidth(300);
+		jScrollPane1.setViewportView(listTable);
+		if (listTable.getColumnModel().getColumnCount() > 0) {
+			listTable.getColumnModel().getColumn(2).setMinWidth(300);
+			listTable.getColumnModel().getColumn(2).setMaxWidth(300);
 		}
 
 		javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -83,8 +100,8 @@ public class Main extends javax.swing.JFrame {
 				.addGroup(jPanel1Layout.createSequentialGroup().addContainerGap().addComponent(jScrollPane1,
 						javax.swing.GroupLayout.DEFAULT_SIZE, 554, Short.MAX_VALUE)));
 
-		jButton7.setText("Print");
-		jButton7.addActionListener(new java.awt.event.ActionListener() {
+		printButton.setText("Print");
+		printButton.addActionListener(new java.awt.event.ActionListener() {
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
 				jButton7ActionPerformed(evt);
 			}
@@ -98,23 +115,22 @@ public class Main extends javax.swing.JFrame {
 						.addComponent(jButton3).addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
 						.addComponent(jButton4).addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
 						.addComponent(jButton5).addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-						.addComponent(jButton7).addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+						.addComponent(printButton)
+						.addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
 				.addGroup(javax.swing.GroupLayout.Alignment.TRAILING,
 						layout.createSequentialGroup().addContainerGap(12, Short.MAX_VALUE)
 								.addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE,
 										javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
 								.addGap(14, 14, 14)));
-		layout.setVerticalGroup(
-				layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-						.addGroup(
-								layout.createSequentialGroup().addContainerGap()
-										.addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-												.addComponent(addButton).addComponent(jButton2).addComponent(jButton3)
-												.addComponent(jButton4).addComponent(jButton5).addComponent(jButton7))
-										.addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-										.addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE,
-												javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-										.addContainerGap()));
+		layout.setVerticalGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+				.addGroup(layout.createSequentialGroup().addContainerGap()
+						.addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+								.addComponent(addButton).addComponent(jButton2).addComponent(jButton3)
+								.addComponent(jButton4).addComponent(jButton5).addComponent(printButton))
+						.addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+						.addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE,
+								javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+						.addContainerGap()));
 
 		pack();
 	}
@@ -182,9 +198,9 @@ public class Main extends javax.swing.JFrame {
 	private javax.swing.JButton jButton3;
 	private javax.swing.JButton jButton4;
 	private javax.swing.JButton jButton5;
-	private javax.swing.JButton jButton7;
+	private javax.swing.JButton printButton;
 	private javax.swing.JPanel jPanel1;
 	private javax.swing.JScrollPane jScrollPane1;
-	private javax.swing.JTable jTable1;
+	private javax.swing.JTable listTable;
 	// End of variables declaration
 }
