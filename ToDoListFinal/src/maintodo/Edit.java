@@ -12,6 +12,7 @@ import javax.swing.UIManager;
 import javax.swing.JTextField;
 import javax.swing.JRadioButton;
 import javax.swing.SwingConstants;
+import javax.swing.ButtonGroup;
 
 public class Edit extends javax.swing.JFrame
 {
@@ -38,8 +39,11 @@ public class Edit extends javax.swing.JFrame
 		dueDateLabel.setHorizontalAlignment(SwingConstants.RIGHT);
 		priorityTextField = new javax.swing.JTextField();
 		notStartedButton = new javax.swing.JRadioButton();
+		buttonGroup.add(notStartedButton);
 		inProgressButton = new javax.swing.JRadioButton();
+		buttonGroup.add(inProgressButton);
 		completedButton = new javax.swing.JRadioButton();
+		buttonGroup.add(completedButton);
 
 		saveButton = new javax.swing.JButton();
 		saveButton.addMouseListener(new MouseAdapter()
@@ -48,12 +52,58 @@ public class Edit extends javax.swing.JFrame
 			public void mouseReleased(MouseEvent e)
 			{
 				// When Save button is hit
+				boolean priorityCheck = CheckInt(priorityTextField.getText());
+				boolean dateDayCheck = CheckInt(dueDateDayTextField.getText());
+				boolean dateMonthCheck = CheckInt(dueDateMonthTextField.getText());
 				if (descriptionTextField.getText().equals("") || dueDateDayTextField.getText().equals("") || priorityTextField.getText().equals("")
 						|| dueDateMonthTextField.getText().equals("")
-						|| (!notStartedButton.isEnabled() && !inProgressButton.isEnabled() && !completedButton.isEnabled()))
+						|| (!notStartedButton.isSelected() && !inProgressButton.isSelected() && !completedButton.isSelected()) || priorityCheck == false
+						|| dateDayCheck == false || dateMonthCheck == false)
 				{
-					// Display error when conditions are not met
-					errorLabel.setText("Some error occured idk");
+					if(descriptionTextField.getText().equals(""))
+					{
+						errorLabel.setText("Description field cannot be empty!");
+					}
+					else if(dueDateDayTextField.getText().equals("")) 
+					{
+						errorLabel.setText("Date field cannot be empty!");
+					}
+					else if(dateDayCheck == false)
+					{
+						errorLabel.setText("Date must be an integer!");
+					}
+					else if(Integer.parseInt(dueDateDayTextField.getText()) < 0)
+					{
+						errorLabel.setText("Date cannot be negative!");
+					}
+					else if(dueDateMonthTextField.getText().equals(""))
+					{
+						errorLabel.setText("Date field cannot be empty!");
+					}
+					else if(dateMonthCheck == false)
+					{
+						errorLabel.setText("Date must be an integer!");
+					}
+					else if(Integer.parseInt(dueDateMonthTextField.getText()) < 0)
+					{
+						errorLabel.setText("Date cannot be negative!");
+					}
+					else if(priorityTextField.getText().equals(""))
+					{
+						errorLabel.setText("Priority field cannot be empty!");
+					}
+					else if(priorityCheck == false)
+					{
+						errorLabel.setText("Priority must be a positive integer!");
+					}
+					else if(Integer.parseInt(priorityTextField.getText()) < 1)
+					{
+						errorLabel.setText("Priority must be greater than 0!");
+					}
+					else if(!inProgressButton.isSelected() && !notStartedButton.isSelected() && !completedButton.isSelected())
+					{
+						errorLabel.setText("A status must be selected!");
+					}
 				}
 				else
 				{
@@ -197,6 +247,17 @@ public class Edit extends javax.swing.JFrame
 		pack();
 	}// </editor-fold>//GEN-END:initComponents
 
+	public boolean CheckInt(String check)
+	{
+		try
+		{
+			Integer.parseInt(check);
+		}catch (NumberFormatException ex) 
+		{
+		    return false;
+		}
+		return true;
+	}
 
 	/**
 	 * @param args the command line arguments
@@ -243,4 +304,5 @@ public class Edit extends javax.swing.JFrame
 	private JLabel decriptionLabel;
 	private JLabel slash;
 	private JLabel statusLabel;
+	private final ButtonGroup buttonGroup = new ButtonGroup();
 }

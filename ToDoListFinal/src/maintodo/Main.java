@@ -252,6 +252,7 @@ public class Main extends javax.swing.JFrame {
 
 	private void onPrintClicked(java.awt.event.ActionEvent evt) {
 		System.out.println("Print");
+		
 	}
 
 	public static void main(String args[]) {
