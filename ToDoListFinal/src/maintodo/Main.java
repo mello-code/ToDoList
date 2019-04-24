@@ -137,7 +137,7 @@ public class Main extends javax.swing.JFrame {
 				"Status", "Priority", "Description", "Due", "Start/End"
 			}
 		));
-
+		listTable.getColumnModel().getColumn(2).setResizable(false);
 		listTable.getColumnModel().getColumn(2).setPreferredWidth(311);
 		jScrollPane1.setViewportView(listTable);
 		if (listTable.getColumnModel().getColumnCount() > 0) {
