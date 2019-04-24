@@ -23,9 +23,22 @@ public class Main extends javax.swing.JFrame {
 
 	public Main() {
 		list = new ArrayList<Item>();
+		initComponents();
+		
 		// preset for testing purposes
 		Item test = new Item("someDesc", "04/16");
-		initComponents();
+		list.add(test);
+		test.setDescription("someOtherDesc");
+		test.setDueDate("07/19");
+		list.add(test);
+		test.setDescription("yet another description");
+		test.setDueDate("999/999");
+		
+		
+		// Comment this out to disable preset.
+		// Currently, updating the list overwrites the tableModel and therefore disregards table formats set by WindowBuilder
+		// (till I update it)
+		addToList(test);
 	}
 
 	public static void addToList(Item item) {
