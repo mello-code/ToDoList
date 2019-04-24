@@ -28,8 +28,7 @@ public class Main extends javax.swing.JFrame {
 		// preset for testing purposes
 		Item test = new Item("someDesc", "04/16");
 		list.add(test);
-		test.setDescription("someOtherDesc");
-		test.setDueDate("07/19");
+		Item test2 = new Item("someOtherDesc", "07/18");
 		list.add(test);
 		test.setDescription("yet another description");
 		test.setDueDate("999/999");
