@@ -68,16 +68,14 @@ public class Add extends javax.swing.JFrame
 
 				if (descriptionTextField.getText().equals(""))
 					errorLabel.setText("Description field cannot be empty!");
-				else if (dueDateDayTextField.getText().equals(""))
+				else if (dueDateDayTextField.getText().equals("") || dueDateMonthTextField.getText().equals(""))
 					errorLabel.setText("Date field cannot be empty!");
+				else if (priorityTextField.getText().equals(""))
+					errorLabel.setText("Priority field cannot be empty!");
 				else if (!dateDayCheck || !dateMonthCheck)
 					errorLabel.setText("Date must be an integer!");
 				else if (formatDate(Integer.parseInt(dueDateMonthTextField.getText()), Integer.parseInt(dueDateDayTextField.getText())).equals(""))
 					errorLabel.setText("Enter a valid date!");
-				else if (dueDateMonthTextField.getText().equals(""))
-					errorLabel.setText("Date field cannot be empty!");
-				else if (priorityTextField.getText().equals(""))
-					errorLabel.setText("Priority field cannot be empty!");
 				else if (!priorityCheck)
 					errorLabel.setText("Priority must be a positive integer!");
 				else if (Integer.parseInt(priorityTextField.getText()) < 1)
@@ -89,10 +87,6 @@ public class Add extends javax.swing.JFrame
 					// Save item to list and close this window
 					Item item = new Item();
 
-					Date today = new Date();
-					Calendar cal = Calendar.getInstance();
-					cal.setTime(today);
-
 					item.setDescription(descriptionTextField.getText());
 					item.setDueDate(formatDate(Integer.parseInt(dueDateMonthTextField.getText()), Integer.parseInt(dueDateDayTextField.getText())));
 
@@ -103,6 +97,10 @@ public class Add extends javax.swing.JFrame
 					}
 					else
 					{
+						Date today = new Date();
+						Calendar cal = Calendar.getInstance();
+						cal.setTime(today);
+
 						if (inProgressButton.isSelected())
 							item.setStatus(Status.IN_PROGRESS);
 						else
