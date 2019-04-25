@@ -108,34 +108,29 @@ public class Main extends javax.swing.JFrame
 
 	public static void addToList(Item item, int priority)
 	{
-		// add item to list
-		switch (priority)
+		if (priority == -1) // add a completed item
 		{
-			case -1: // add a completed item
-				int index = 0;
-				for (Item i : list)
-				{
-					if (i.getStatus() == Status.DELETED)
-						break;
-					index++;
-				}
-				list.add(index, item);
-				break;
-			default:
-				if (priority < list.size()
-						&& (list.get(priority).getStatus() == Status.NOT_STARTED || list.get(priority).getStatus() == Status.IN_PROGRESS))
-					list.add(priority - 1, item);
-				else
-				{
-					int newPriority = priority - 1;
-//					while (list.get(newPriority).getStatus())
-//					{
-//						
-//					}
-				}
-				break;
+			int index = 0;
+			for (Item i : list)
+			{
+				if (i.getStatus() == Status.DELETED)
+					break;
+				index++;
+			}
+			list.add(index, item);
 		}
-
+		else if (priority == 0) // add an item to the top of the list
+		{
+			list.add(priority, item);
+		}
+		else // add an item before completed/deleted items
+		{
+			do
+				priority--;
+			while (priority >= list.size() || list.get(priority).getStatus() == Status.COMPLETED
+					|| list.get(priority).getStatus() == Status.DELETED);
+			list.add(priority + 1, item);
+		}
 		refreshTable();
 	}
 
