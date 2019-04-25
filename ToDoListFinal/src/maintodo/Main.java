@@ -49,13 +49,11 @@ public class Main extends javax.swing.JFrame
 		Item test2 = new Item("as a placeholder so you don't have to add new items", "07/18");
 		Item test3 = new Item("every single time we test some component of the program", "09/01");
 		Item test4 = new Item("If you wish to start the program without these preadded items", "09/01");
-		Item test5 = new Item("comment out line 64 to 76", "09/23");
 		Item test5 = new Item("comment out line 65 to 78", "09/23");
 		Item blank = new Item("", "00/00");
 		Item test6 = new Item("Actual To-Do:", "10/04");
 		Item test7 = new Item("replace buttons with images", "11/18");
 		Item test8 = new Item("work on default sorting based on status", "11/18");
-		Item test9 = new Item("priority insertion", "12/31");
 		Item test9 = new Item("priority insertion and status tooltip", "12/31");
 		Item test10 = new Item("highlight boxes with red when encountering errors", "12/31");
 		Item test11 = new Item("description dynamic tabbing for report", "12/31");
@@ -76,7 +74,6 @@ public class Main extends javax.swing.JFrame
 		list.add(test7);
 		list.add(test8);
 		list.add(test9);
-		addToList(test10);
 		list.add(test10);
 		addToList(test11);
 
