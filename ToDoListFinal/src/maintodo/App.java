@@ -8,7 +8,6 @@ import javax.swing.JFrame;
 public class App {
 
 	private JFrame frame;
-	private static ArrayList<Item> list;
 	private static ArrayList<Item> session;
 
 	/**
@@ -33,6 +32,7 @@ public class App {
 	public App() {
 		initialize();
 	}
+	
 
 	/**
 	 * Initialize the contents of the frame.
@@ -43,16 +43,17 @@ public class App {
 	
 	public static void setSession(ArrayList<Item> list)
 	{
-		System.out.println("Save List in App");
+		System.out.println("set session");
 		session = new ArrayList<Item>();
 		
 		for (Item i: list) {
-			session.add(i); // BROKEN: nullptr error
+			session.add(i); 
 		}
 	}
 	
 	public static ArrayList<Item> getSession()
 	{
+		System.out.println("get session");
 		return session;
 	}
 
