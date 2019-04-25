@@ -21,6 +21,10 @@ import javax.swing.GroupLayout;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import java.awt.Font;
 
+import java.io.FileWriter;
+import java.io.PrintWriter;
+import java.io.IOException;
+
 /**
  * NOTE: Design tab will only work when variable listTable isn't static.
  * However, program won't run if it isn't static. When messing with desgin tab,
@@ -426,7 +430,11 @@ public class Main extends javax.swing.JFrame
 	private void onPrintClicked(java.awt.event.ActionEvent evt)
 	{
 		System.out.println("Print");
-
+		WritePrintFile();
+	}
+	public void WritePrintFile()
+	{
+		
 	}
 
 	public static void main(String args[])

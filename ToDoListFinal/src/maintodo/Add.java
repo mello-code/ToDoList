@@ -63,7 +63,9 @@ public class Add extends javax.swing.JFrame
 				if (descriptionTextField.getText().equals("") || dueDateDayTextField.getText().equals("") || priorityTextField.getText().equals("")
 						|| dueDateMonthTextField.getText().equals("")
 						|| (!notStartedButton.isSelected() && !inProgressButton.isSelected() && !completedButton.isSelected()) || priorityCheck == false
-						|| dateDayCheck == false || dateMonthCheck == false)
+						|| dateDayCheck == false || dateMonthCheck == false || Integer.parseInt(priorityTextField.getText()) < 1 
+						|| Integer.parseInt(dueDateMonthTextField.getText()) < 0 || Integer.parseInt(dueDateDayTextField.getText()) < 0
+						|| Integer.parseInt(dueDateDayTextField.getText()) > 31 || Integer.parseInt(dueDateMonthTextField.getText()) > 12)
 				{
 					if(descriptionTextField.getText().equals(""))
 					{
@@ -81,6 +83,10 @@ public class Add extends javax.swing.JFrame
 					{
 						errorLabel.setText("Date cannot be negative!");
 					}
+					else if(Integer.parseInt(dueDateDayTextField.getText()) > 31)
+					{
+						errorLabel.setText("Enter a valid day!");
+					}
 					else if(dueDateMonthTextField.getText().equals(""))
 					{
 						errorLabel.setText("Date field cannot be empty!");
@@ -92,6 +98,10 @@ public class Add extends javax.swing.JFrame
 					else if(Integer.parseInt(dueDateMonthTextField.getText()) < 0)
 					{
 						errorLabel.setText("Date cannot be negative!");
+					}
+					else if(Integer.parseInt(dueDateMonthTextField.getText()) > 12)
+					{
+						errorLabel.setText("Enter a valid month!");
 					}
 					else if(priorityTextField.getText().equals(""))
 					{
