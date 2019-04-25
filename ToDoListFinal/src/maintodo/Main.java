@@ -13,9 +13,13 @@ import javax.swing.table.AbstractTableModel;
 import javax.swing.table.DefaultTableCellRenderer;
 
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
+import javax.swing.table.TableRowSorter;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.GroupLayout;
 import javax.swing.LayoutStyle.ComponentPlacement;
+import javax.swing.RowSorter;
+import javax.swing.SortOrder;
 
 import java.awt.Color;
 import java.awt.Component;
@@ -117,7 +121,7 @@ public class Main extends javax.swing.JFrame
 
 		refreshTable();
 	}
-	
+
 	public static void editItem(Item item, int priority)
 	{
 		list.remove(selectedItem);
@@ -127,6 +131,11 @@ public class Main extends javax.swing.JFrame
 	public static Item fetchItem()
 	{
 		return list.get(selectedItem);
+	}
+
+	public static ArrayList<Item> fetchItems()
+	{
+		return list;
 	}
 
 	public static int fetchIndex()
@@ -279,6 +288,7 @@ public class Main extends javax.swing.JFrame
 				}
 			}
 		});
+		
 		listTable.setAutoCreateRowSorter(true);
 		listTable.setModel(new DefaultTableModel(
 				new Object[][] { { null, null, null, null, null }, { null, null, null, null, null }, { null, null, null, null, null },
@@ -291,13 +301,16 @@ public class Main extends javax.swing.JFrame
 						{ null, null, null, null, null }, { null, null, null, null, null }, { null, null, null, null, null },
 						{ null, null, null, null, null }, { null, null, null, null, null }, },
 				new String[] { "Status", "Priority", "Description", "Due", "Start/End" }));
-	TableRowSorter<TableModel> sorter = new TableRowSorter<>(listTable.getModel());
-        listTable.setRowSorter(sorter);
-        ArrayList<RowSorter.SortKey> sortKeys = new ArrayList<>();
-        int columnIndexToSort = 1;
-        sortKeys.add(new RowSorter.SortKey(columnIndexToSort, SortOrder.ASCENDING));
-        sorter.setSortKeys(sortKeys);
-        sorter.sort();
+		
+		TableRowSorter<TableModel> sorter = new TableRowSorter<>(listTable.getModel());
+		listTable.setRowSorter(sorter);
+		
+		ArrayList<RowSorter.SortKey> sortKeys = new ArrayList<>();
+		int columnIndexToSort = 1;
+		sortKeys.add(new RowSorter.SortKey(columnIndexToSort, SortOrder.ASCENDING));
+		sorter.setSortKeys(sortKeys);
+		sorter.sort();
+		
 		listTable.getColumnModel().getColumn(0).setResizable(false);
 		listTable.getColumnModel().getColumn(0).setPreferredWidth(40);
 		listTable.getColumnModel().getColumn(1).setResizable(false);
