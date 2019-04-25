@@ -51,12 +51,13 @@ public class Main extends javax.swing.JFrame
 		Item test2 = new Item("as a placeholder so you don't have to add new items", "07/18");
 		Item test3 = new Item("every single time we test some component of the program", "09/01");
 		Item test4 = new Item("If you wish to start the program without these preadded items", "09/01");
-		Item test5 = new Item("comment out line 59 to 70", "09/23");
-		Item blank = new Item("", " 00/00");
-		Item test6 = new Item("Personal To-Do:", "10/04");
+		Item test5 = new Item("comment out line 64 to 76", "09/23");
+		Item blank = new Item("", "00/00");
+		Item test6 = new Item("Actual To-Do:", "10/04");
 		Item test7 = new Item("replace buttons with images", "11/18");
 		Item test8 = new Item("work on default sorting based on status", "11/18");
 		Item test9 = new Item("priority insertion", "12/31");
+		Item test10 = new Item("highlight boxes with red when encountering errors", "12/31");
 
 		// Comment this out to disable preset.
 		// Currently, updating the list overwrites the tableModel and therefore
@@ -73,7 +74,8 @@ public class Main extends javax.swing.JFrame
 		list.add(blank);
 		list.add(test7);
 		list.add(test8);
-		addToList(test9);
+		list.add(test9);
+		addToList(test10);
 
 	}
 
@@ -136,13 +138,13 @@ public class Main extends javax.swing.JFrame
 		switch (s)
 		{
 			case NOT_STARTED:
-				return "o";
+				return "\u2013";
 			case IN_PROGRESS:
-				return "~";
+				return "\u2053";
 			case COMPLETED:
-				return "-";
+				return "\u2713";
 			default:
-				return "x";
+				return "\u2613";
 		}
 	}
 
@@ -407,14 +409,12 @@ public class Main extends javax.swing.JFrame
 
 	private void onAddClicked(java.awt.event.ActionEvent evt)
 	{
-		System.out.println("Add");
 		Add addWindow = new Add();
 		addWindow.show();
 	}
 
 	private void onEditClicked(java.awt.event.ActionEvent evt)
 	{
-		System.out.println("Edit");
 		Edit editWindow = new Edit();
 		editWindow.show();
 	}
