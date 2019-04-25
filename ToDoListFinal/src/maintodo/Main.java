@@ -1,6 +1,5 @@
 package maintodo;
 
-import java.awt.event.ActionEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.ArrayList;
@@ -13,16 +12,12 @@ import javax.swing.UIManager;
 import javax.swing.table.AbstractTableModel;
 import javax.swing.table.DefaultTableCellRenderer;
 
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.GroupLayout;
 import javax.swing.LayoutStyle.ComponentPlacement;
 
-import java.awt.Desktop;
 import java.awt.Font;
-import java.io.File;
 import java.io.FileWriter;
 import java.io.PrintWriter;
 import java.io.IOException;
@@ -51,13 +46,14 @@ public class Main extends javax.swing.JFrame
 		Item test2 = new Item("as a placeholder so you don't have to add new items", "07/18");
 		Item test3 = new Item("every single time we test some component of the program", "09/01");
 		Item test4 = new Item("If you wish to start the program without these preadded items", "09/01");
-		Item test5 = new Item("comment out line 64 to 76", "09/23");
+		Item test5 = new Item("comment out line 65 to 78", "09/23");
 		Item blank = new Item("", "00/00");
 		Item test6 = new Item("Actual To-Do:", "10/04");
 		Item test7 = new Item("replace buttons with images", "11/18");
 		Item test8 = new Item("work on default sorting based on status", "11/18");
-		Item test9 = new Item("priority insertion", "12/31");
+		Item test9 = new Item("priority insertion and status tooltip", "12/31");
 		Item test10 = new Item("highlight boxes with red when encountering errors", "12/31");
+		Item test11 = new Item("description dynamic tabbing for report", "12/31");
 
 		// Comment this out to disable preset.
 		// Currently, updating the list overwrites the tableModel and therefore
@@ -75,13 +71,31 @@ public class Main extends javax.swing.JFrame
 		list.add(test7);
 		list.add(test8);
 		list.add(test9);
-		addToList(test10);
+		list.add(test10);
+		list.add(test11);
+		addToList(blank, -1);
 
 	}
 
-	public static void addToList(Item item)
+	public static void addToList(Item item, int priority)
 	{
-		list.add(item);
+		// add item to list
+		switch (priority)
+		{
+			case -1:
+				list.add(item);
+				break;
+			default:
+				list.add(priority - 1, item);
+				break;
+		}
+
+		refreshTable();
+	}
+
+	public static void refreshTable()
+	{
+		// set up data[][] for refreshing the table
 		tableModel newModel = new tableModel();
 		for (int i = 0; i < list.size(); i++)
 		{
@@ -119,13 +133,13 @@ public class Main extends javax.swing.JFrame
 		listTable.getColumnModel().getColumn(2).setResizable(false);
 		listTable.getColumnModel().getColumn(3).setResizable(false);
 		listTable.getColumnModel().getColumn(4).setResizable(false);
-		
+
 		listTable.getColumnModel().getColumn(0).setCellRenderer(centerRenderer);
 		listTable.getColumnModel().getColumn(1).setCellRenderer(centerRenderer);
 		listTable.getColumnModel().getColumn(2).setCellRenderer(leftRenderer);
 		listTable.getColumnModel().getColumn(3).setCellRenderer(centerRenderer);
 		listTable.getColumnModel().getColumn(4).setCellRenderer(centerRenderer);
-		
+
 		listTable.getColumnModel().getColumn(0).setMaxWidth(50);
 		listTable.getColumnModel().getColumn(1).setMaxWidth(50);
 		listTable.getColumnModel().getColumn(2).setPreferredWidth(320);
@@ -155,8 +169,8 @@ public class Main extends javax.swing.JFrame
 		addButton = new javax.swing.JButton();
 		editButton = new javax.swing.JButton();
 		deleteButton = new javax.swing.JButton();
-		restoreButton = new javax.swing.JButton();
 		saveButton = new javax.swing.JButton();
+		restoreButton = new javax.swing.JButton();
 		jPanel1 = new javax.swing.JPanel();
 		jScrollPane1 = new javax.swing.JScrollPane();
 		listTable = new javax.swing.JTable();
@@ -191,8 +205,8 @@ public class Main extends javax.swing.JFrame
 			}
 		});
 
-		restoreButton.setText("Restore");
-		restoreButton.addActionListener(new java.awt.event.ActionListener()
+		saveButton.setText("Save");
+		saveButton.addActionListener(new java.awt.event.ActionListener()
 		{
 			public void actionPerformed(java.awt.event.ActionEvent evt)
 			{
@@ -200,8 +214,8 @@ public class Main extends javax.swing.JFrame
 			}
 		});
 
-		saveButton.setText("Save");
-		saveButton.addActionListener(new java.awt.event.ActionListener()
+		restoreButton.setText("Restore");
+		restoreButton.addActionListener(new java.awt.event.ActionListener()
 		{
 			public void actionPerformed(java.awt.event.ActionEvent evt)
 			{
@@ -214,50 +228,28 @@ public class Main extends javax.swing.JFrame
 		{
 			public void actionPerformed(java.awt.event.ActionEvent evt)
 			{
-				try {
+				try
+				{
 					onPrintClicked(evt);
-				} catch (IOException e) {
+				} catch (IOException e)
+				{
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 			}
 		});
 
-		listTable
-				.setModel(
-						new DefaultTableModel(
-			new Object[][] {
-				{null, null, null, null, null},
-				{null, null, null, null, null},
-				{null, null, null, null, null},
-				{null, null, null, null, null},
-				{null, null, null, null, null},
-				{null, null, null, null, null},
-				{null, null, null, null, null},
-				{null, null, null, null, null},
-				{null, null, null, null, null},
-				{null, null, null, null, null},
-				{null, null, null, null, null},
-				{null, null, null, null, null},
-				{null, null, null, null, null},
-				{null, null, null, null, null},
-				{null, null, null, null, null},
-				{null, null, null, null, null},
-				{null, null, null, null, null},
-				{null, null, null, null, null},
-				{null, null, null, null, null},
-				{null, null, null, null, null},
-				{null, null, null, null, null},
-				{null, null, null, null, null},
-				{null, null, null, null, null},
-				{null, null, null, null, null},
-				{null, null, null, null, null},
-				{null, null, null, null, null},
-			},
-			new String[] {
-				"Status", "Priority", "Description", "Due", "Start/End"
-			}
-		));
+		listTable.setModel(new DefaultTableModel(
+				new Object[][] { { null, null, null, null, null }, { null, null, null, null, null }, { null, null, null, null, null },
+						{ null, null, null, null, null }, { null, null, null, null, null }, { null, null, null, null, null },
+						{ null, null, null, null, null }, { null, null, null, null, null }, { null, null, null, null, null },
+						{ null, null, null, null, null }, { null, null, null, null, null }, { null, null, null, null, null },
+						{ null, null, null, null, null }, { null, null, null, null, null }, { null, null, null, null, null },
+						{ null, null, null, null, null }, { null, null, null, null, null }, { null, null, null, null, null },
+						{ null, null, null, null, null }, { null, null, null, null, null }, { null, null, null, null, null },
+						{ null, null, null, null, null }, { null, null, null, null, null }, { null, null, null, null, null },
+						{ null, null, null, null, null }, { null, null, null, null, null }, },
+				new String[] { "Status", "Priority", "Description", "Due", "Start/End" }));
 		listTable.getColumnModel().getColumn(0).setResizable(false);
 		listTable.getColumnModel().getColumn(0).setPreferredWidth(40);
 		listTable.getColumnModel().getColumn(1).setResizable(false);
@@ -281,51 +273,30 @@ public class Main extends javax.swing.JFrame
 				javax.swing.GroupLayout.DEFAULT_SIZE, 713, Short.MAX_VALUE));
 		jPanel1Layout.setVerticalGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGroup(jPanel1Layout
 				.createSequentialGroup().addContainerGap().addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 554, Short.MAX_VALUE)));
-		
+
 		JLabel lblToDoList = new JLabel(" To Do List");
 		lblToDoList.setFont(new Font("Dialog", Font.PLAIN, 20));
 
 		javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-		layout.setHorizontalGroup(
-			layout.createParallelGroup(Alignment.TRAILING)
-				.addGroup(layout.createSequentialGroup()
-					.addContainerGap(12, Short.MAX_VALUE)
-					.addGroup(layout.createParallelGroup(Alignment.TRAILING, false)
+		layout.setHorizontalGroup(layout.createParallelGroup(Alignment.TRAILING).addGroup(layout.createSequentialGroup()
+				.addContainerGap(12, Short.MAX_VALUE)
+				.addGroup(layout.createParallelGroup(Alignment.TRAILING, false)
 						.addGroup(layout.createSequentialGroup()
-							.addComponent(jPanel1, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-							.addGap(14))
+								.addComponent(jPanel1, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE).addGap(14))
 						.addGroup(layout.createSequentialGroup()
-							.addComponent(lblToDoList, GroupLayout.PREFERRED_SIZE, 110, GroupLayout.PREFERRED_SIZE)
-							.addPreferredGap(ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-							.addComponent(addButton)
-							.addPreferredGap(ComponentPlacement.RELATED)
-							.addComponent(editButton)
-							.addPreferredGap(ComponentPlacement.RELATED)
-							.addComponent(deleteButton)
-							.addPreferredGap(ComponentPlacement.RELATED)
-							.addComponent(restoreButton)
-							.addPreferredGap(ComponentPlacement.RELATED)
-							.addComponent(saveButton)
-							.addPreferredGap(ComponentPlacement.RELATED)
-							.addComponent(printButton)
-							.addContainerGap())))
-		);
-		layout.setVerticalGroup(
-			layout.createParallelGroup(Alignment.LEADING)
-				.addGroup(layout.createSequentialGroup()
-					.addGap(11)
-					.addGroup(layout.createParallelGroup(Alignment.BASELINE)
-						.addComponent(editButton)
-						.addComponent(deleteButton)
-						.addComponent(restoreButton)
-						.addComponent(saveButton)
-						.addComponent(printButton)
-						.addComponent(addButton)
-						.addComponent(lblToDoList, GroupLayout.PREFERRED_SIZE, 26, GroupLayout.PREFERRED_SIZE))
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(jPanel1, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-					.addContainerGap())
-		);
+								.addComponent(lblToDoList, GroupLayout.PREFERRED_SIZE, 110, GroupLayout.PREFERRED_SIZE)
+								.addPreferredGap(ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE).addComponent(addButton)
+								.addPreferredGap(ComponentPlacement.RELATED).addComponent(editButton).addPreferredGap(ComponentPlacement.RELATED)
+								.addComponent(deleteButton).addPreferredGap(ComponentPlacement.RELATED).addComponent(saveButton)
+								.addPreferredGap(ComponentPlacement.RELATED).addComponent(restoreButton).addPreferredGap(ComponentPlacement.RELATED)
+								.addComponent(printButton).addContainerGap()))));
+		layout.setVerticalGroup(layout.createParallelGroup(Alignment.LEADING)
+				.addGroup(layout.createSequentialGroup().addGap(11)
+						.addGroup(layout.createParallelGroup(Alignment.BASELINE).addComponent(editButton).addComponent(deleteButton)
+								.addComponent(saveButton).addComponent(restoreButton).addComponent(printButton).addComponent(addButton)
+								.addComponent(lblToDoList, GroupLayout.PREFERRED_SIZE, 26, GroupLayout.PREFERRED_SIZE))
+						.addPreferredGap(ComponentPlacement.RELATED)
+						.addComponent(jPanel1, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE).addContainerGap()));
 		getContentPane().setLayout(layout);
 
 		pack();
@@ -334,34 +305,15 @@ public class Main extends javax.swing.JFrame
 	static class tableModel extends AbstractTableModel
 	{
 		private String[] columnNames = { "Status", "Priority", "Description", "Due", "Start/End" };
-		private Object[][] data = new Object[][] {
-			{null, null, null, null, null},
-			{null, null, null, null, null},
-			{null, null, null, null, null},
-			{null, null, null, null, null},
-			{null, null, null, null, null},
-			{null, null, null, null, null},
-			{null, null, null, null, null},
-			{null, null, null, null, null},
-			{null, null, null, null, null},
-			{null, null, null, null, null},
-			{null, null, null, null, null},
-			{null, null, null, null, null},
-			{null, null, null, null, null},
-			{null, null, null, null, null},
-			{null, null, null, null, null},
-			{null, null, null, null, null},
-			{null, null, null, null, null},
-			{null, null, null, null, null},
-			{null, null, null, null, null},
-			{null, null, null, null, null},
-			{null, null, null, null, null},
-			{null, null, null, null, null},
-			{null, null, null, null, null},
-			{null, null, null, null, null},
-			{null, null, null, null, null},
-			{null, null, null, null, null},
-		};
+		private Object[][] data = new Object[][] { { null, null, null, null, null }, { null, null, null, null, null },
+				{ null, null, null, null, null }, { null, null, null, null, null }, { null, null, null, null, null },
+				{ null, null, null, null, null }, { null, null, null, null, null }, { null, null, null, null, null },
+				{ null, null, null, null, null }, { null, null, null, null, null }, { null, null, null, null, null },
+				{ null, null, null, null, null }, { null, null, null, null, null }, { null, null, null, null, null },
+				{ null, null, null, null, null }, { null, null, null, null, null }, { null, null, null, null, null },
+				{ null, null, null, null, null }, { null, null, null, null, null }, { null, null, null, null, null },
+				{ null, null, null, null, null }, { null, null, null, null, null }, { null, null, null, null, null },
+				{ null, null, null, null, null }, { null, null, null, null, null }, { null, null, null, null, null }, };
 
 		public int getColumnCount()
 		{
@@ -421,7 +373,12 @@ public class Main extends javax.swing.JFrame
 
 	private void onDeleteClicked(java.awt.event.ActionEvent evt)
 	{
-		System.out.println("Delete");
+		if (listTable.getSelectedRow() < list.size())
+		{
+			list.remove(listTable.getSelectedRow());
+			refreshTable();
+		}
+
 	}
 
 	private void onRestoreClicked(java.awt.event.ActionEvent evt)
@@ -438,37 +395,40 @@ public class Main extends javax.swing.JFrame
 	{
 		System.out.println("Print");
 		writePrintFile();
-		try {
+		try
+		{
 			Runtime.getRuntime().exec("notepad ToDoList.txt");
-		}
-		catch(IOException e){	
+		} catch (IOException e)
+		{
 		}
 	}
+
 	public void writePrintFile() throws IOException
-	{ 
+	{
 		FileWriter write = new FileWriter("ToDoList.txt", false);
 		PrintWriter print = new PrintWriter(write);
-		print.printf("%s"+"\t\t", "Status:");
-		print.printf("%s", padRight("Description:",70));
-		print.printf("%s", padRight("Status:",18));
-		print.printf("%s", padRight("Due Date:",18));
+		print.printf("%s" + "\t\t", "Status:");
+		print.printf("%s", padRight("Description:", 70));
+		print.printf("%s", padRight("Status:", 18));
+		print.printf("%s", padRight("Due Date:", 18));
 		print.printf("%s", padRight("Date Started/Finished:", 20));
 		print.printf("%n");
-		for(int i =0; i < list.size(); i++)
+		for (int i = 0; i < list.size(); i++)
 		{
-			print.printf("%d"+"\t\t", i);
-			print.printf("%s", padRight(list.get(i).getDescription(),70));
-			print.printf("%s", padRight(list.get(i).getStatus().name(),18));
-			print.printf("%s", padRight(list.get(i).getDueDate(),18));
+			print.printf("%d" + "\t\t", i);
+			print.printf("%s", padRight(list.get(i).getDescription(), 70));
+			print.printf("%s", padRight(list.get(i).getStatus().name(), 18));
+			print.printf("%s", padRight(list.get(i).getDueDate(), 18));
 			print.printf("%s", padRight(list.get(i).getOptionalDate(), 20));
 			print.printf("%n");
 		}
-		//print.printf("%s"+"%n", text);
+		// print.printf("%s"+"%n", text);
 		print.close();
 	}
-	public static String padRight(String s, int n) 
+
+	public static String padRight(String s, int n)
 	{
-	     return String.format("%-" + n + "s", s);  
+		return String.format("%-" + n + "s", s);
 	}
 
 	public static void main(String args[])
@@ -520,8 +480,8 @@ public class Main extends javax.swing.JFrame
 	private javax.swing.JButton addButton;
 	private javax.swing.JButton editButton;
 	private javax.swing.JButton deleteButton;
-	private javax.swing.JButton restoreButton;
 	private javax.swing.JButton saveButton;
+	private javax.swing.JButton restoreButton;
 	private javax.swing.JButton printButton;
 	private javax.swing.JPanel jPanel1;
 	private javax.swing.JScrollPane jScrollPane1;
