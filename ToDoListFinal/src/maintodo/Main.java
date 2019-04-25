@@ -13,9 +13,13 @@ import javax.swing.table.AbstractTableModel;
 import javax.swing.table.DefaultTableCellRenderer;
 
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
+import javax.swing.table.TableRowSorter;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.GroupLayout;
 import javax.swing.LayoutStyle.ComponentPlacement;
+import javax.swing.RowSorter;
+import javax.swing.SortOrder;
 
 import java.awt.Color;
 import java.awt.Component;
@@ -124,7 +128,7 @@ public class Main extends javax.swing.JFrame
 
 		refreshTable();
 	}
-	
+
 	public static void editItem(Item item, int priority)
 	{
 		list.remove(selectedItem);
@@ -134,6 +138,11 @@ public class Main extends javax.swing.JFrame
 	public static Item fetchItem()
 	{
 		return list.get(selectedItem);
+	}
+
+	public static ArrayList<Item> fetchItems()
+	{
+		return list;
 	}
 
 	public static int fetchIndex()
@@ -286,6 +295,7 @@ public class Main extends javax.swing.JFrame
 				}
 			}
 		});
+		
 		listTable.setAutoCreateRowSorter(true);
 		listTable.setModel(new DefaultTableModel(
 				new Object[][] { { null, null, null, null, null }, { null, null, null, null, null }, { null, null, null, null, null },
@@ -298,13 +308,16 @@ public class Main extends javax.swing.JFrame
 						{ null, null, null, null, null }, { null, null, null, null, null }, { null, null, null, null, null },
 						{ null, null, null, null, null }, { null, null, null, null, null }, },
 				new String[] { "Status", "Priority", "Description", "Due", "Start/End" }));
-	TableRowSorter<TableModel> sorter = new TableRowSorter<>(listTable.getModel());
-        listTable.setRowSorter(sorter);
-        ArrayList<RowSorter.SortKey> sortKeys = new ArrayList<>();
-        int columnIndexToSort = 1;
-        sortKeys.add(new RowSorter.SortKey(columnIndexToSort, SortOrder.ASCENDING));
-        sorter.setSortKeys(sortKeys);
-        sorter.sort();
+		
+		TableRowSorter<TableModel> sorter = new TableRowSorter<>(listTable.getModel());
+		listTable.setRowSorter(sorter);
+		
+		ArrayList<RowSorter.SortKey> sortKeys = new ArrayList<>();
+		int columnIndexToSort = 1;
+		sortKeys.add(new RowSorter.SortKey(columnIndexToSort, SortOrder.ASCENDING));
+		sorter.setSortKeys(sortKeys);
+		sorter.sort();
+		
 		listTable.getColumnModel().getColumn(0).setResizable(false);
 		listTable.getColumnModel().getColumn(0).setPreferredWidth(40);
 		listTable.getColumnModel().getColumn(1).setResizable(false);
@@ -501,7 +514,7 @@ public class Main extends javax.swing.JFrame
 	{
 		FileWriter write = new FileWriter("ToDoList.txt", false);
 		PrintWriter print = new PrintWriter(write);
-		print.printf("%s" + "\t\t", "Status:");
+		print.printf("%s" + "\t", "Priority:");
 		print.printf("%s", padRight("Description:", 70));
 		print.printf("%s", padRight("Status:", 18));
 		print.printf("%s", padRight("Due Date:", 18));
@@ -509,12 +522,28 @@ public class Main extends javax.swing.JFrame
 		print.printf("%n");
 		for (int i = 0; i < list.size(); i++)
 		{
-			print.printf("%d" + "\t\t", i);
-			print.printf("%s", padRight(list.get(i).getDescription(), 70));
-			print.printf("%s", padRight(list.get(i).getStatus().name(), 18));
-			print.printf("%s", padRight(list.get(i).getDueDate(), 18));
-			print.printf("%s", padRight(list.get(i).getOptionalDate(), 20));
-			print.printf("%n");
+			if(list.get(i).getStatus().name() != "DELETED")
+			{
+				print.printf("%d" + "\t\t", i+1);
+				print.printf("%s", padRight(list.get(i).getDescription(), 70));
+				print.printf("%s", padRight(list.get(i).getStatus().name(), 18));
+				print.printf("%s", padRight(list.get(i).getDueDate(), 18));
+				print.printf("%s", padRight(list.get(i).getOptionalDate(), 20));
+				print.printf("%n");
+			}
+		}
+		print.printf("%n"+"%s"+"%n", "Deleted Items:");
+		for (int i = 0; i < list.size(); i++)
+		{
+			if(list.get(i).getStatus().name() == "DELETED")
+			{
+				print.printf("%s" + "\t\t", "-");
+				print.printf("%s", padRight(list.get(i).getDescription(), 70));
+				print.printf("%s", padRight(list.get(i).getStatus().name(), 18));
+				print.printf("%s", padRight(list.get(i).getDueDate(), 18));
+				print.printf("%s", padRight(list.get(i).getOptionalDate(), 20));
+				print.printf("%n");
+			}
 		}
 		// print.printf("%s"+"%n", text);
 		print.close();

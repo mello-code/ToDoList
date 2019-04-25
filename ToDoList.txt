@@ -1,14 +1,19 @@
-Status:		Description:                                                          Status:           Due Date:         Date Started/Finished:
-0		This is a preset                                                      NOT_STARTED       04/16             -                   
-1		as a placeholder so you don't have to add new items                   NOT_STARTED       07/18             -                   
-2		every single time we test some component of the program               NOT_STARTED       09/01             -                   
-3		If you wish to start the program without these preadded items         NOT_STARTED       09/01             -                   
-4		comment out line 64 to 76                                             NOT_STARTED       09/23             -                   
-5		                                                                      NOT_STARTED       00/00             -                   
-6		                                                                      NOT_STARTED       00/00             -                   
-7		Actual To-Do:                                                         NOT_STARTED       10/04             -                   
-8		                                                                      NOT_STARTED       00/00             -                   
-9		replace buttons with images                                           NOT_STARTED       11/18             -                   
-10		work on default sorting based on status                               NOT_STARTED       11/18             -                   
-11		priority insertion                                                    NOT_STARTED       12/31             -                   
-12		highlight boxes with red when encountering errors                     NOT_STARTED       12/31             -                   
+Priority:	Description:                                                          Status:           Due Date:         Date Started/Finished:
+1		This is a preset                                                      IN_PROGRESS       04/16             04/12               
+2		every single time we test some component of the program               IN_PROGRESS       09/01             04/14               
+3		If you wish to start the program without these preadded items         IN_PROGRESS       09/01             04/25               
+4		comment out line 65 to 78                                             IN_PROGRESS       09/23             05/01               
+7		Actual To-Do:                                                         IN_PROGRESS       10/04             05/01               
+8		priority insertion and status tooltip                                 NOT_STARTED       12/31             -                   
+9		description dynamic tabbing for report                                NOT_STARTED       12/31             -                   
+10		this is a completed item                                              COMPLETED         06/27             06/05               
+
+Deleted Items:
+-		                                                                      DELETED           --/--             -                   
+-		                                                                      DELETED           --/--             -                   
+-		this is a deleted item                                                DELETED           06/05             06/05               
+-		as a placeholder so you don't have to add new items                   DELETED           07/18             04/14               
+-		work on default sorting based on status                               DELETED           11/18             05/07               
+-		highlight boxes with red when encountering errors                     DELETED           12/31             -                   
+-		replace buttons with images                                           DELETED           11/18             05/01               
+-		                                                                      DELETED           --/--             -                   
