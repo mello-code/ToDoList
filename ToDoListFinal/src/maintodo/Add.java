@@ -18,6 +18,7 @@ import javax.swing.SwingConstants;
 import javax.swing.ButtonGroup;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import javax.swing.border.LineBorder;
 
 public class Add extends javax.swing.JFrame
 {
@@ -36,6 +37,7 @@ public class Add extends javax.swing.JFrame
 		setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
 		descriptionTextField = new javax.swing.JTextField();
+		descriptionTextField.setBackground(Color.WHITE);
 		dueDateLabel = new javax.swing.JLabel();
 		dueDateLabel.setHorizontalAlignment(SwingConstants.RIGHT);
 		dueDateDayTextField = new javax.swing.JTextField();
@@ -65,21 +67,57 @@ public class Add extends javax.swing.JFrame
 				boolean priorityCheck = CheckInt(priorityTextField.getText());
 				boolean dateDayCheck = CheckInt(dueDateDayTextField.getText());
 				boolean dateMonthCheck = CheckInt(dueDateMonthTextField.getText());
+				descriptionTextField.setBorder(new LineBorder(Color.GRAY, 1));
+				dueDateDayTextField.setBorder(new LineBorder(Color.GRAY, 1));
+				dueDateMonthTextField.setBorder(new LineBorder(Color.GRAY, 1));
+				priorityTextField.setBorder(new LineBorder(Color.GRAY, 1));
 
 				if (descriptionTextField.getText().equals(""))
+				{
 					errorLabel.setText("Description field cannot be empty!");
-				else if (dueDateDayTextField.getText().equals("") || dueDateMonthTextField.getText().equals(""))
+					descriptionTextField.setBorder(new LineBorder(Color.RED, 2));
+				}
+				else if (dueDateDayTextField.getText().equals(""))
+				{
 					errorLabel.setText("Date field cannot be empty!");
+					dueDateDayTextField.setBorder(new LineBorder(Color.RED, 2));
+				}
+				else if(dueDateMonthTextField.getText().equals(""))
+				{
+					errorLabel.setText("Date field cannot be empty!");
+					dueDateMonthTextField.setBorder(new LineBorder(Color.RED, 2));
+				}
 				else if (priorityTextField.getText().equals(""))
+				{
 					errorLabel.setText("Priority field cannot be empty!");
-				else if (!dateDayCheck || !dateMonthCheck)
+					priorityTextField.setBorder(new LineBorder(Color.RED, 2));
+				}
+				else if (!dateDayCheck)
+				{
 					errorLabel.setText("Date must be an integer!");
+					dueDateDayTextField.setBorder(new LineBorder(Color.RED, 2));
+				}
+				else if(!dateMonthCheck)
+				{
+					errorLabel.setText("Date must be an integer!");
+					dueDateMonthTextField.setBorder(new LineBorder(Color.RED, 2));
+				}
 				else if (formatDate(Integer.parseInt(dueDateMonthTextField.getText()), Integer.parseInt(dueDateDayTextField.getText())).equals(""))
+				{
 					errorLabel.setText("Enter a valid date!");
+					dueDateMonthTextField.setBorder(new LineBorder(Color.RED, 2));
+					dueDateDayTextField.setBorder(new LineBorder(Color.RED, 2));
+				}	
 				else if (!priorityCheck)
+				{
 					errorLabel.setText("Priority must be a positive integer!");
+					priorityTextField.setBorder(new LineBorder(Color.RED, 2));
+				}
 				else if (Integer.parseInt(priorityTextField.getText()) < 1)
+				{
 					errorLabel.setText("Priority must be greater than 0!");
+					priorityTextField.setBorder(new LineBorder(Color.RED, 2));
+				}
 				else if (!notStartedButton.isSelected() && !inProgressButton.isSelected() && !completedButton.isSelected())
 					errorLabel.setText("A status must be selected!");
 				else
