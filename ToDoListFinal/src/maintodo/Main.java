@@ -24,6 +24,11 @@ import java.io.FileWriter;
 import java.io.PrintWriter;
 import java.io.IOException;
 
+import javax.swing.RowSorter;
+import javax.swing.SortOrder;
+import javax.swing.table.TableModel;
+import javax.swing.table.TableRowSorter;
+
 /**
  * NOTE: Design tab will only work when variable listTable isn't static.
  * However, program won't run if it isn't static. When messing with desgin tab,
