@@ -2,6 +2,7 @@ package maintodo;
 
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -40,7 +41,7 @@ public class Add extends javax.swing.JFrame
 		descriptionTextField.setBackground(Color.WHITE);
 		dueDateLabel = new javax.swing.JLabel();
 		dueDateLabel.setHorizontalAlignment(SwingConstants.RIGHT);
-		dueDateDayTextField = new javax.swing.JTextField();
+		dueDateMonthTextField = new javax.swing.JTextField();
 		priorityLabel = new javax.swing.JLabel();
 		priorityLabel.setHorizontalAlignment(SwingConstants.RIGHT);
 		dueDateLabel.setHorizontalAlignment(SwingConstants.RIGHT);
@@ -65,11 +66,11 @@ public class Add extends javax.swing.JFrame
 			public void mouseReleased(MouseEvent e)
 			{
 				boolean priorityCheck = CheckInt(priorityTextField.getText());
-				boolean dateDayCheck = CheckInt(dueDateDayTextField.getText());
-				boolean dateMonthCheck = CheckInt(dueDateMonthTextField.getText());
+				boolean dateDayCheck = CheckInt(dueDateMonthTextField.getText());
+				boolean dateMonthCheck = CheckInt(dueDateDayTextField.getText());
 				descriptionTextField.setBorder(new LineBorder(Color.GRAY, 1));
-				dueDateDayTextField.setBorder(new LineBorder(Color.GRAY, 1));
 				dueDateMonthTextField.setBorder(new LineBorder(Color.GRAY, 1));
+				dueDateDayTextField.setBorder(new LineBorder(Color.GRAY, 1));
 				priorityTextField.setBorder(new LineBorder(Color.GRAY, 1));
 
 				if (descriptionTextField.getText().equals(""))
@@ -77,15 +78,20 @@ public class Add extends javax.swing.JFrame
 					errorLabel.setText("Description field cannot be empty!");
 					descriptionTextField.setBorder(new LineBorder(Color.RED, 2));
 				}
+				else if (duplicateCheck(descriptionTextField.getText().replaceAll("\\s+", "")))
+				{
+					errorLabel.setText("Identical description already exists!");
+					descriptionTextField.setBorder(new LineBorder(Color.RED, 2));
+				}
+				else if (dueDateMonthTextField.getText().equals(""))
+				{
+					errorLabel.setText("Date field cannot be empty!");
+					dueDateMonthTextField.setBorder(new LineBorder(Color.RED, 2));
+				}
 				else if (dueDateDayTextField.getText().equals(""))
 				{
 					errorLabel.setText("Date field cannot be empty!");
 					dueDateDayTextField.setBorder(new LineBorder(Color.RED, 2));
-				}
-				else if(dueDateMonthTextField.getText().equals(""))
-				{
-					errorLabel.setText("Date field cannot be empty!");
-					dueDateMonthTextField.setBorder(new LineBorder(Color.RED, 2));
 				}
 				else if (priorityTextField.getText().equals(""))
 				{
@@ -95,19 +101,19 @@ public class Add extends javax.swing.JFrame
 				else if (!dateDayCheck)
 				{
 					errorLabel.setText("Date must be an integer!");
-					dueDateDayTextField.setBorder(new LineBorder(Color.RED, 2));
+					dueDateMonthTextField.setBorder(new LineBorder(Color.RED, 2));
 				}
-				else if(!dateMonthCheck)
+				else if (!dateMonthCheck)
 				{
 					errorLabel.setText("Date must be an integer!");
-					dueDateMonthTextField.setBorder(new LineBorder(Color.RED, 2));
+					dueDateDayTextField.setBorder(new LineBorder(Color.RED, 2));
 				}
 				else if (formatDate(Integer.parseInt(dueDateMonthTextField.getText()), Integer.parseInt(dueDateDayTextField.getText())).equals(""))
 				{
 					errorLabel.setText("Enter a valid date!");
-					dueDateMonthTextField.setBorder(new LineBorder(Color.RED, 2));
 					dueDateDayTextField.setBorder(new LineBorder(Color.RED, 2));
-				}	
+					dueDateMonthTextField.setBorder(new LineBorder(Color.RED, 2));
+				}
 				else if (!priorityCheck)
 				{
 					errorLabel.setText("Priority must be a positive integer!");
@@ -142,7 +148,7 @@ public class Add extends javax.swing.JFrame
 						cal.setTime(today);
 
 						item.setOptionalDate(formatDate(cal.get(Calendar.MONTH) + 1, cal.get(Calendar.DATE)));
-						
+
 						if (inProgressButton.isSelected())
 						{
 							item.setStatus(Status.IN_PROGRESS);
@@ -151,12 +157,12 @@ public class Add extends javax.swing.JFrame
 						}
 						else
 						{
-							//item.setPriority();
+							// item.setPriority();
 							item.setStatus(Status.COMPLETED);
 
 							Main.addToList(item, -1);
 						}
-							
+
 					}
 
 					setVisible(false);
@@ -186,7 +192,7 @@ public class Add extends javax.swing.JFrame
 		dueDateLabel.setText("Due Date:");
 		slash = new JLabel();
 		slash.setText("/");
-		dueDateMonthTextField = new JTextField();
+		dueDateDayTextField = new JTextField();
 
 		priorityLabel.setText("Priority:");
 
@@ -206,88 +212,63 @@ public class Add extends javax.swing.JFrame
 		cancelButton.setText("Cancel");
 
 		javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-		layout.setHorizontalGroup(
-			layout.createParallelGroup(Alignment.LEADING)
+		layout.setHorizontalGroup(layout.createParallelGroup(Alignment.LEADING).addGroup(layout.createSequentialGroup().addGroup(layout
+				.createParallelGroup(Alignment.TRAILING)
+				.addGroup(layout.createSequentialGroup().addContainerGap().addComponent(detailLabel).addPreferredGap(ComponentPlacement.RELATED))
+				.addGroup(layout.createSequentialGroup().addGap(67).addGroup(layout.createParallelGroup(Alignment.TRAILING)
+						.addComponent(errorLabel, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 311, Short.MAX_VALUE)
+						.addGroup(layout.createSequentialGroup().addComponent(saveButton, GroupLayout.PREFERRED_SIZE, 116, GroupLayout.PREFERRED_SIZE)
+								.addPreferredGap(ComponentPlacement.RELATED, 79, Short.MAX_VALUE)
+								.addComponent(cancelButton, GroupLayout.PREFERRED_SIZE, 116, GroupLayout.PREFERRED_SIZE)))
+						.addGap(42)))
+				.addGap(30))
 				.addGroup(layout.createSequentialGroup()
-					.addGroup(layout.createParallelGroup(Alignment.TRAILING)
-						.addGroup(layout.createSequentialGroup()
-							.addContainerGap()
-							.addComponent(detailLabel)
-							.addPreferredGap(ComponentPlacement.RELATED))
-						.addGroup(layout.createSequentialGroup()
-							.addGap(67)
-							.addGroup(layout.createParallelGroup(Alignment.TRAILING)
-								.addComponent(errorLabel, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 311, Short.MAX_VALUE)
-								.addGroup(layout.createSequentialGroup()
-									.addComponent(saveButton, GroupLayout.PREFERRED_SIZE, 116, GroupLayout.PREFERRED_SIZE)
-									.addPreferredGap(ComponentPlacement.RELATED, 79, Short.MAX_VALUE)
-									.addComponent(cancelButton, GroupLayout.PREFERRED_SIZE, 116, GroupLayout.PREFERRED_SIZE)))
-							.addGap(42)))
-					.addGap(30))
-				.addGroup(layout.createSequentialGroup()
-					.addGroup(layout.createParallelGroup(Alignment.LEADING)
-						.addComponent(priorityLabel, GroupLayout.DEFAULT_SIZE, 97, Short.MAX_VALUE)
-						.addComponent(dueDateLabel, GroupLayout.DEFAULT_SIZE, 97, Short.MAX_VALUE)
-						.addComponent(decriptionLabel, GroupLayout.DEFAULT_SIZE, 97, Short.MAX_VALUE)
-						.addComponent(statusLabel, GroupLayout.DEFAULT_SIZE, 97, Short.MAX_VALUE))
-					.addPreferredGap(ComponentPlacement.RELATED, 7, GroupLayout.PREFERRED_SIZE)
-					.addGroup(layout.createParallelGroup(Alignment.LEADING)
-						.addGroup(layout.createSequentialGroup()
-							.addGap(1)
-							.addGroup(layout.createParallelGroup(Alignment.LEADING)
-								.addComponent(notStartedButton)
-								.addComponent(inProgressButton, GroupLayout.PREFERRED_SIZE, 143, GroupLayout.PREFERRED_SIZE)
-								.addComponent(completedButton, GroupLayout.PREFERRED_SIZE, 117, GroupLayout.PREFERRED_SIZE)))
-						.addGroup(layout.createSequentialGroup()
-							.addGap(6)
-							.addGroup(layout.createParallelGroup(Alignment.LEADING)
-								.addComponent(descriptionTextField, GroupLayout.PREFERRED_SIZE, 258, GroupLayout.PREFERRED_SIZE)
-								.addGroup(layout.createSequentialGroup()
-									.addGroup(layout.createParallelGroup(Alignment.LEADING, false)
-										.addComponent(priorityTextField)
-										.addGroup(layout.createSequentialGroup()
-											.addComponent(dueDateDayTextField, GroupLayout.PREFERRED_SIZE, 36, GroupLayout.PREFERRED_SIZE)
-											.addGap(6)
-											.addComponent(slash)))
-									.addPreferredGap(ComponentPlacement.RELATED)
-									.addComponent(dueDateMonthTextField, GroupLayout.PREFERRED_SIZE, 36, GroupLayout.PREFERRED_SIZE)))))
-					.addGap(82))
-		);
-		layout.setVerticalGroup(
-			layout.createParallelGroup(Alignment.LEADING)
-				.addGroup(layout.createSequentialGroup()
-					.addContainerGap()
-					.addComponent(detailLabel)
-					.addGap(11)
-					.addGroup(layout.createParallelGroup(Alignment.BASELINE)
-						.addComponent(decriptionLabel)
-						.addComponent(descriptionTextField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addGroup(layout.createParallelGroup(Alignment.BASELINE)
-						.addComponent(dueDateLabel)
-						.addComponent(dueDateDayTextField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-						.addComponent(dueDateMonthTextField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-						.addComponent(slash))
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addGroup(layout.createParallelGroup(Alignment.BASELINE)
-						.addComponent(priorityTextField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-						.addComponent(priorityLabel))
-					.addGap(8)
-					.addGroup(layout.createParallelGroup(Alignment.BASELINE)
-						.addComponent(notStartedButton)
-						.addComponent(statusLabel))
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(inProgressButton)
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(completedButton)
-					.addPreferredGap(ComponentPlacement.UNRELATED)
-					.addComponent(errorLabel)
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addGroup(layout.createParallelGroup(Alignment.BASELINE)
-						.addComponent(cancelButton, GroupLayout.PREFERRED_SIZE, 31, GroupLayout.PREFERRED_SIZE)
-						.addComponent(saveButton, GroupLayout.PREFERRED_SIZE, 31, GroupLayout.PREFERRED_SIZE))
-					.addContainerGap(32, Short.MAX_VALUE))
-		);
+						.addGroup(layout.createParallelGroup(Alignment.LEADING)
+								.addComponent(priorityLabel, GroupLayout.DEFAULT_SIZE, 97, Short.MAX_VALUE)
+								.addComponent(dueDateLabel, GroupLayout.DEFAULT_SIZE, 97, Short.MAX_VALUE)
+								.addComponent(decriptionLabel, GroupLayout.DEFAULT_SIZE, 97, Short.MAX_VALUE)
+								.addComponent(statusLabel, GroupLayout.DEFAULT_SIZE, 97, Short.MAX_VALUE))
+						.addPreferredGap(ComponentPlacement.RELATED, 7, GroupLayout.PREFERRED_SIZE)
+						.addGroup(layout.createParallelGroup(Alignment.LEADING)
+								.addGroup(layout.createSequentialGroup().addGap(1)
+										.addGroup(layout.createParallelGroup(Alignment.LEADING).addComponent(notStartedButton)
+												.addComponent(inProgressButton, GroupLayout.PREFERRED_SIZE, 143, GroupLayout.PREFERRED_SIZE)
+												.addComponent(completedButton, GroupLayout.PREFERRED_SIZE, 117, GroupLayout.PREFERRED_SIZE)))
+								.addGroup(layout.createSequentialGroup().addGap(6)
+										.addGroup(layout.createParallelGroup(Alignment.LEADING)
+												.addComponent(descriptionTextField, GroupLayout.PREFERRED_SIZE, 258, GroupLayout.PREFERRED_SIZE)
+												.addGroup(layout.createSequentialGroup()
+														.addGroup(layout.createParallelGroup(Alignment.LEADING, false).addComponent(priorityTextField)
+																.addGroup(layout.createSequentialGroup()
+																		.addComponent(dueDateMonthTextField, GroupLayout.PREFERRED_SIZE, 36,
+																				GroupLayout.PREFERRED_SIZE)
+																		.addGap(6).addComponent(slash)))
+														.addPreferredGap(ComponentPlacement.RELATED).addComponent(dueDateDayTextField,
+																GroupLayout.PREFERRED_SIZE, 36, GroupLayout.PREFERRED_SIZE)))))
+						.addGap(82)));
+		layout.setVerticalGroup(layout.createParallelGroup(Alignment.LEADING)
+				.addGroup(layout.createSequentialGroup().addContainerGap().addComponent(detailLabel).addGap(11)
+						.addGroup(layout.createParallelGroup(Alignment.BASELINE).addComponent(decriptionLabel).addComponent(descriptionTextField,
+								GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+						.addPreferredGap(ComponentPlacement.RELATED)
+						.addGroup(layout.createParallelGroup(Alignment.BASELINE).addComponent(dueDateLabel)
+								.addComponent(dueDateMonthTextField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+								.addComponent(dueDateDayTextField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+								.addComponent(slash))
+						.addPreferredGap(ComponentPlacement.RELATED)
+						.addGroup(
+								layout.createParallelGroup(Alignment.BASELINE)
+										.addComponent(priorityTextField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE,
+												GroupLayout.PREFERRED_SIZE)
+										.addComponent(priorityLabel))
+						.addGap(8).addGroup(layout.createParallelGroup(Alignment.BASELINE).addComponent(notStartedButton).addComponent(statusLabel))
+						.addPreferredGap(ComponentPlacement.RELATED).addComponent(inProgressButton).addPreferredGap(ComponentPlacement.RELATED)
+						.addComponent(completedButton).addPreferredGap(ComponentPlacement.UNRELATED).addComponent(errorLabel)
+						.addPreferredGap(ComponentPlacement.RELATED)
+						.addGroup(layout.createParallelGroup(Alignment.BASELINE)
+								.addComponent(cancelButton, GroupLayout.PREFERRED_SIZE, 31, GroupLayout.PREFERRED_SIZE)
+								.addComponent(saveButton, GroupLayout.PREFERRED_SIZE, 31, GroupLayout.PREFERRED_SIZE))
+						.addContainerGap(32, Short.MAX_VALUE)));
 		getContentPane().setLayout(layout);
 
 		pack();
@@ -306,6 +287,17 @@ public class Add extends javax.swing.JFrame
 			return false;
 		}
 		return true;
+	}
+
+	public boolean duplicateCheck(String descriptionWithoutSpaces)
+	{
+		ArrayList<Item> list = Main.fetchItems();
+		for (Item item : list)
+		{
+			if (item.getDescription().replaceAll("\\s+", "").equals(descriptionWithoutSpaces))
+				return true;
+		}
+		return false;
 	}
 
 	private String formatDate(int month, int day)
@@ -363,8 +355,8 @@ public class Add extends javax.swing.JFrame
 	private javax.swing.JRadioButton notStartedButton;
 	private javax.swing.JRadioButton completedButton;
 	private javax.swing.JTextField descriptionTextField;
-	private javax.swing.JTextField dueDateDayTextField;
 	private javax.swing.JTextField dueDateMonthTextField;
+	private javax.swing.JTextField dueDateDayTextField;
 	private javax.swing.JTextField priorityTextField;
 	private JLabel detailLabel;
 	private JLabel decriptionLabel;

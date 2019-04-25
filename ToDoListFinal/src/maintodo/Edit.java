@@ -2,6 +2,7 @@ package maintodo;
 
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -91,15 +92,20 @@ public class Edit extends javax.swing.JFrame
 					errorLabel.setText("Description field cannot be empty!");
 					descriptionTextField.setBorder(new LineBorder(Color.RED, 2));
 				}
-				else if (dueDateDayTextField.getText().equals(""))
+				else if (duplicateCheck(descriptionTextField.getText().replaceAll("\\s+", "")))
 				{
-					errorLabel.setText("Date field cannot be empty!");
-					dueDateDayTextField.setBorder(new LineBorder(Color.RED, 2));
+					errorLabel.setText("Identical description already exists!");
+					descriptionTextField.setBorder(new LineBorder(Color.RED, 2));
 				}
 				else if (dueDateMonthTextField.getText().equals(""))
 				{
 					errorLabel.setText("Date field cannot be empty!");
 					dueDateMonthTextField.setBorder(new LineBorder(Color.RED, 2));
+				}
+				else if (dueDateDayTextField.getText().equals(""))
+				{
+					errorLabel.setText("Date field cannot be empty!");
+					dueDateDayTextField.setBorder(new LineBorder(Color.RED, 2));
 				}
 				else if (priorityTextField.getText().equals(""))
 				{
@@ -109,18 +115,18 @@ public class Edit extends javax.swing.JFrame
 				else if (!dateDayCheck)
 				{
 					errorLabel.setText("Date must be an integer!");
-					dueDateDayTextField.setBorder(new LineBorder(Color.RED, 2));
+					dueDateMonthTextField.setBorder(new LineBorder(Color.RED, 2));
 				}
 				else if (!dateMonthCheck)
 				{
 					errorLabel.setText("Date must be an integer!");
-					dueDateMonthTextField.setBorder(new LineBorder(Color.RED, 2));
+					dueDateDayTextField.setBorder(new LineBorder(Color.RED, 2));
 				}
 				else if (formatDate(Integer.parseInt(dueDateMonthTextField.getText()), Integer.parseInt(dueDateDayTextField.getText())).equals(""))
 				{
 					errorLabel.setText("Enter a valid date!");
-					dueDateMonthTextField.setBorder(new LineBorder(Color.RED, 2));
 					dueDateDayTextField.setBorder(new LineBorder(Color.RED, 2));
+					dueDateMonthTextField.setBorder(new LineBorder(Color.RED, 2));
 				}
 				else if (!priorityCheck)
 				{
@@ -294,6 +300,17 @@ public class Edit extends javax.swing.JFrame
 			return false;
 		}
 		return true;
+	}
+
+	public boolean duplicateCheck(String descriptionWithoutSpaces)
+	{
+		ArrayList<Item> list = Main.fetchItems();
+		for (Item item : list)
+		{
+			if (item.getDescription().replaceAll("\\s+", "").equals(descriptionWithoutSpaces))
+				return true;
+		}
+		return false;
 	}
 
 	private String formatDate(int month, int day)

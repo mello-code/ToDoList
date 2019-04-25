@@ -13,9 +13,13 @@ import javax.swing.table.AbstractTableModel;
 import javax.swing.table.DefaultTableCellRenderer;
 
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
+import javax.swing.table.TableRowSorter;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.GroupLayout;
 import javax.swing.LayoutStyle.ComponentPlacement;
+import javax.swing.RowSorter;
+import javax.swing.SortOrder;
 
 import java.awt.Color;
 import java.awt.Component;
@@ -42,11 +46,13 @@ public class Main extends javax.swing.JFrame
 	private JTable table;
 	private static int selectedItem;
 	private static ArrayList<Item> list;
+	private static ArrayList<Item> session;
 
 	public Main()
 	{
 		setTitle("To Do List");
 		list = new ArrayList<Item>();
+		session = new ArrayList<Item>();
 		initComponents();
 
 		// preset for testing purposes
@@ -105,7 +111,7 @@ public class Main extends javax.swing.JFrame
 		// add item to list
 		switch (priority)
 		{
-			case -1:
+			case -1: // add a completed item
 				int index = 0;
 				for (Item i : list)
 				{
@@ -116,13 +122,23 @@ public class Main extends javax.swing.JFrame
 				list.add(index, item);
 				break;
 			default:
-				list.add(priority - 1, item);
+				if (priority < list.size()
+						&& (list.get(priority).getStatus() == Status.NOT_STARTED || list.get(priority).getStatus() == Status.IN_PROGRESS))
+					list.add(priority - 1, item);
+				else
+				{
+					int newPriority = priority - 1;
+//					while (list.get(newPriority).getStatus())
+//					{
+//						
+//					}
+				}
 				break;
 		}
 
 		refreshTable();
 	}
-	
+
 	public static void editItem(Item item, int priority)
 	{
 		list.remove(selectedItem);
@@ -132,6 +148,11 @@ public class Main extends javax.swing.JFrame
 	public static Item fetchItem()
 	{
 		return list.get(selectedItem);
+	}
+
+	public static ArrayList<Item> fetchItems()
+	{
+		return list;
 	}
 
 	public static int fetchIndex()
@@ -256,7 +277,7 @@ public class Main extends javax.swing.JFrame
 		{
 			public void actionPerformed(java.awt.event.ActionEvent evt)
 			{
-				onRestoreClicked(evt);
+				onSaveClicked(evt);
 			}
 		});
 
@@ -265,7 +286,7 @@ public class Main extends javax.swing.JFrame
 		{
 			public void actionPerformed(java.awt.event.ActionEvent evt)
 			{
-				onSaveClicked(evt);
+				onRestoreClicked(evt);
 			}
 		});
 
@@ -284,6 +305,7 @@ public class Main extends javax.swing.JFrame
 				}
 			}
 		});
+
 		listTable.setAutoCreateRowSorter(true);
 		listTable.setModel(new DefaultTableModel(
 				new Object[][] { { null, null, null, null, null }, { null, null, null, null, null }, { null, null, null, null, null },
@@ -296,13 +318,16 @@ public class Main extends javax.swing.JFrame
 						{ null, null, null, null, null }, { null, null, null, null, null }, { null, null, null, null, null },
 						{ null, null, null, null, null }, { null, null, null, null, null }, },
 				new String[] { "Status", "Priority", "Description", "Due", "Start/End" }));
-	TableRowSorter<TableModel> sorter = new TableRowSorter<>(listTable.getModel());
-        listTable.setRowSorter(sorter);
-        ArrayList<RowSorter.SortKey> sortKeys = new ArrayList<>();
-        int columnIndexToSort = 1;
-        sortKeys.add(new RowSorter.SortKey(columnIndexToSort, SortOrder.ASCENDING));
-        sorter.setSortKeys(sortKeys);
-        sorter.sort();
+
+		TableRowSorter<TableModel> sorter = new TableRowSorter<>(listTable.getModel());
+		listTable.setRowSorter(sorter);
+
+		ArrayList<RowSorter.SortKey> sortKeys = new ArrayList<>();
+		int columnIndexToSort = 1;
+		sortKeys.add(new RowSorter.SortKey(columnIndexToSort, SortOrder.ASCENDING));
+		sorter.setSortKeys(sortKeys);
+		sorter.sort();
+
 		listTable.getColumnModel().getColumn(0).setResizable(false);
 		listTable.getColumnModel().getColumn(0).setPreferredWidth(40);
 		listTable.getColumnModel().getColumn(1).setResizable(false);
@@ -460,22 +485,25 @@ public class Main extends javax.swing.JFrame
 	{
 		if (listTable.getSelectedRow() < list.size())
 		{
-			list.add(list.get(listTable.getSelectedRow()));
-			list.get(list.size() - 1).setStatus(Status.DELETED);
 			list.remove(listTable.getSelectedRow());
 			refreshTable();
 		}
 
 	}
 
+	private void onSaveClicked(java.awt.event.ActionEvent evt)
+	{
+		App.setSession(list);
+	}
+
 	private void onRestoreClicked(java.awt.event.ActionEvent evt)
 	{
 		System.out.println("Restore");
-	}
-
-	private void onSaveClicked(java.awt.event.ActionEvent evt)
-	{
-		System.out.println("Save");
+		session = App.getSession();
+		for (int i = 0; i < session.size(); i++)
+		{
+			list.add(i, session.get(i));
+		}
 	}
 
 	private void onPrintClicked(java.awt.event.ActionEvent evt) throws IOException
@@ -502,9 +530,9 @@ public class Main extends javax.swing.JFrame
 		print.printf("%n");
 		for (int i = 0; i < list.size(); i++)
 		{
-			if(list.get(i).getStatus().name() != "DELETED")
+			if (list.get(i).getStatus().name() != "DELETED")
 			{
-				print.printf("%d" + "\t\t", i+1);
+				print.printf("%d" + "\t\t", i + 1);
 				print.printf("%s", padRight(list.get(i).getDescription(), 70));
 				print.printf("%s", padRight(list.get(i).getStatus().name(), 18));
 				print.printf("%s", padRight(list.get(i).getDueDate(), 18));
@@ -512,10 +540,10 @@ public class Main extends javax.swing.JFrame
 				print.printf("%n");
 			}
 		}
-		print.printf("%n"+"%s"+"%n", "Deleted Items:");
+		print.printf("%n" + "%s" + "%n", "Deleted Items:");
 		for (int i = 0; i < list.size(); i++)
 		{
-			if(list.get(i).getStatus().name() == "DELETED")
+			if (list.get(i).getStatus().name() == "DELETED")
 			{
 				print.printf("%s" + "\t\t", "-");
 				print.printf("%s", padRight(list.get(i).getDescription(), 70));
