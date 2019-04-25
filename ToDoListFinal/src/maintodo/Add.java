@@ -160,7 +160,7 @@ public class Add extends javax.swing.JFrame
 							// item.setPriority();
 							item.setStatus(Status.COMPLETED);
 
-							Main.addToList(item, -1);
+							Main.addToList(item, 0);
 						}
 
 					}
@@ -302,7 +302,6 @@ public class Add extends javax.swing.JFrame
 
 	private String formatDate(int month, int day)
 	{
-		System.out.println(month + "    " + day);
 		if (day < 1 || month < 1 || month > 12)
 			return "";
 		else if ((month == 1 || month == 3 || month == 5 || month == 7 || month == 8 || month == 10 || month == 12) && day > 31)

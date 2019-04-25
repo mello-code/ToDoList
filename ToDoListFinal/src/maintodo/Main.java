@@ -107,9 +107,9 @@ public class Main extends javax.swing.JFrame
 	public static void addToList(Item item, int priority)
 	{
 		// add item to list
-		switch (priority)
+		switch (priority - 1)
 		{
-			case -1:
+			case -1: // add a completed item
 				int index = 0;
 				for (Item i : list)
 				{
@@ -120,7 +120,12 @@ public class Main extends javax.swing.JFrame
 				list.add(index, item);
 				break;
 			default:
-				list.add(priority - 1, item);
+				if (priority < list.size() && (list.get(priority).getStatus() == Status.NOT_STARTED || list.get(priority).getStatus() == Status.IN_PROGRESS))
+					list.add(priority, item);
+				else
+				{
+					// shift priority down and add
+				}			
 				break;
 		}
 
@@ -293,7 +298,7 @@ public class Main extends javax.swing.JFrame
 				}
 			}
 		});
-		
+
 		listTable.setAutoCreateRowSorter(true);
 		listTable.setModel(new DefaultTableModel(
 				new Object[][] { { null, null, null, null, null }, { null, null, null, null, null }, { null, null, null, null, null },
@@ -306,16 +311,16 @@ public class Main extends javax.swing.JFrame
 						{ null, null, null, null, null }, { null, null, null, null, null }, { null, null, null, null, null },
 						{ null, null, null, null, null }, { null, null, null, null, null }, },
 				new String[] { "Status", "Priority", "Description", "Due", "Start/End" }));
-		
+
 		TableRowSorter<TableModel> sorter = new TableRowSorter<>(listTable.getModel());
 		listTable.setRowSorter(sorter);
-		
+
 		ArrayList<RowSorter.SortKey> sortKeys = new ArrayList<>();
 		int columnIndexToSort = 1;
 		sortKeys.add(new RowSorter.SortKey(columnIndexToSort, SortOrder.ASCENDING));
 		sorter.setSortKeys(sortKeys);
 		sorter.sort();
-		
+
 		listTable.getColumnModel().getColumn(0).setResizable(false);
 		listTable.getColumnModel().getColumn(0).setPreferredWidth(40);
 		listTable.getColumnModel().getColumn(1).setResizable(false);
@@ -515,9 +520,9 @@ public class Main extends javax.swing.JFrame
 		print.printf("%n");
 		for (int i = 0; i < list.size(); i++)
 		{
-			if(list.get(i).getStatus().name() != "DELETED")
+			if (list.get(i).getStatus().name() != "DELETED")
 			{
-				print.printf("%d" + "\t\t", i+1);
+				print.printf("%d" + "\t\t", i + 1);
 				print.printf("%s", padRight(list.get(i).getDescription(), 70));
 				print.printf("%s", padRight(list.get(i).getStatus().name(), 18));
 				print.printf("%s", padRight(list.get(i).getDueDate(), 18));
@@ -525,10 +530,10 @@ public class Main extends javax.swing.JFrame
 				print.printf("%n");
 			}
 		}
-		print.printf("%n"+"%s"+"%n", "Deleted Items:");
+		print.printf("%n" + "%s" + "%n", "Deleted Items:");
 		for (int i = 0; i < list.size(); i++)
 		{
-			if(list.get(i).getStatus().name() == "DELETED")
+			if (list.get(i).getStatus().name() == "DELETED")
 			{
 				print.printf("%s" + "\t\t", "-");
 				print.printf("%s", padRight(list.get(i).getDescription(), 70));
