@@ -238,7 +238,7 @@ public class Main extends javax.swing.JFrame
 		listTable = new javax.swing.JTable();
 		printButton = new javax.swing.JButton();
 
-		setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(javax.swing.WindowConstants.HIDE_ON_CLOSE); // config to save
 
 		addButton.setText("Add");
 		addButton.addActionListener(new java.awt.event.ActionListener()
@@ -488,16 +488,17 @@ public class Main extends javax.swing.JFrame
 
 	private void onSaveClicked(java.awt.event.ActionEvent evt)
 	{
+		System.out.println("Save");
 		App.setSession(list);
 	}
 
 	private void onRestoreClicked(java.awt.event.ActionEvent evt)
 	{
 		System.out.println("Restore");
+		session = new ArrayList<Item>();
 		session = App.getSession();
-		for (int i = 0; i < session.size(); i++)
-		{
-			list.add(i, session.get(i));
+		for (Item i : session) { // ERROR: nullptr on session
+			list.add(i);
 		}
 	}
 
@@ -548,7 +549,6 @@ public class Main extends javax.swing.JFrame
 				print.printf("%n");
 			}
 		}
-		// print.printf("%s"+"%n", text);
 		print.close();
 	}
 
