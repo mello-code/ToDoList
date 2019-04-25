@@ -1,0 +1,13 @@
+Status:		Description:                                                          Status:           Due Date:         Date Started/Finished:
+0		This is a preset                                                      NOT_STARTED       04/16             -                   
+1		as a placeholder so you don't have to add new items                   NOT_STARTED       07/18             -                   
+2		every single time we test some component of the program               NOT_STARTED       09/01             -                   
+3		If you wish to start the program without these preadded items         NOT_STARTED       09/01             -                   
+4		comment out line 59 to 70                                             NOT_STARTED       09/23             -                   
+5		                                                                      NOT_STARTED        00/00            -                   
+6		                                                                      NOT_STARTED        00/00            -                   
+7		Personal To-Do:                                                       NOT_STARTED       10/04             -                   
+8		                                                                      NOT_STARTED        00/00            -                   
+9		replace buttons with images                                           NOT_STARTED       11/18             -                   
+10		work on default sorting based on status                               NOT_STARTED       11/18             -                   
+11		priority insertion                                                    NOT_STARTED       12/31             -                   

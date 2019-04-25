@@ -19,8 +19,10 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.GroupLayout;
 import javax.swing.LayoutStyle.ComponentPlacement;
-import java.awt.Font;
 
+import java.awt.Desktop;
+import java.awt.Font;
+import java.io.File;
 import java.io.FileWriter;
 import java.io.PrintWriter;
 import java.io.IOException;
@@ -210,7 +212,12 @@ public class Main extends javax.swing.JFrame
 		{
 			public void actionPerformed(java.awt.event.ActionEvent evt)
 			{
-				onPrintClicked(evt);
+				try {
+					onPrintClicked(evt);
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 			}
 		});
 
@@ -427,14 +434,41 @@ public class Main extends javax.swing.JFrame
 		System.out.println("Save");
 	}
 
-	private void onPrintClicked(java.awt.event.ActionEvent evt)
+	private void onPrintClicked(java.awt.event.ActionEvent evt) throws IOException
 	{
 		System.out.println("Print");
-		WritePrintFile();
+		writePrintFile();
+		try {
+			Runtime.getRuntime().exec("notepad ToDoList.txt");
+		}
+		catch(IOException e){	
+		}
 	}
-	public void WritePrintFile()
+	public void writePrintFile() throws IOException
+	{ 
+		FileWriter write = new FileWriter("ToDoList.txt", false);
+		PrintWriter print = new PrintWriter(write);
+		print.printf("%s"+"\t\t", "Status:");
+		print.printf("%s", padRight("Description:",70));
+		print.printf("%s", padRight("Status:",18));
+		print.printf("%s", padRight("Due Date:",18));
+		print.printf("%s", padRight("Date Started/Finished:", 20));
+		print.printf("%n");
+		for(int i =0; i < list.size(); i++)
+		{
+			print.printf("%d"+"\t\t", i);
+			print.printf("%s", padRight(list.get(i).getDescription(),70));
+			print.printf("%s", padRight(list.get(i).getStatus().name(),18));
+			print.printf("%s", padRight(list.get(i).getDueDate(),18));
+			print.printf("%s", padRight(list.get(i).getOptionalDate(), 20));
+			print.printf("%n");
+		}
+		//print.printf("%s"+"%n", text);
+		print.close();
+	}
+	public static String padRight(String s, int n) 
 	{
-		
+	     return String.format("%-" + n + "s", s);  
 	}
 
 	public static void main(String args[])
