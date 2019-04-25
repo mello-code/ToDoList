@@ -44,8 +44,10 @@ public class App {
 	public static void setSession(ArrayList<Item> list)
 	{
 		System.out.println("Save List in App");
-		for (int i = 0; i < list.size(); i++) {
-			session.add(i, list.get(i)); // BROKEN: nullptr error
+		session = new ArrayList<Item>();
+		
+		for (Item i: list) {
+			session.add(i); // BROKEN: nullptr error
 		}
 	}
 	
