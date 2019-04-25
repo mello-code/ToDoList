@@ -279,7 +279,7 @@ public class Main extends javax.swing.JFrame
 				}
 			}
 		});
-
+		listTable.setAutoCreateRowSorter(true);
 		listTable.setModel(new DefaultTableModel(
 				new Object[][] { { null, null, null, null, null }, { null, null, null, null, null }, { null, null, null, null, null },
 						{ null, null, null, null, null }, { null, null, null, null, null }, { null, null, null, null, null },
@@ -291,6 +291,13 @@ public class Main extends javax.swing.JFrame
 						{ null, null, null, null, null }, { null, null, null, null, null }, { null, null, null, null, null },
 						{ null, null, null, null, null }, { null, null, null, null, null }, },
 				new String[] { "Status", "Priority", "Description", "Due", "Start/End" }));
+	TableRowSorter<TableModel> sorter = new TableRowSorter<>(listTable.getModel());
+        listTable.setRowSorter(sorter);
+        ArrayList<RowSorter.SortKey> sortKeys = new ArrayList<>();
+        int columnIndexToSort = 1;
+        sortKeys.add(new RowSorter.SortKey(columnIndexToSort, SortOrder.ASCENDING));
+        sorter.setSortKeys(sortKeys);
+        sorter.sort();
 		listTable.getColumnModel().getColumn(0).setResizable(false);
 		listTable.getColumnModel().getColumn(0).setPreferredWidth(40);
 		listTable.getColumnModel().getColumn(1).setResizable(false);
