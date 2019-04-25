@@ -516,6 +516,13 @@ public class Main extends javax.swing.JFrame
 		} catch (IOException e)
 		{
 		}
+		try
+		{
+			Runtime.getRuntime().exec("xdg-open ToDoList.txt");
+		}
+		catch(IOException e)
+		{
+		}
 	}
 
 	public void writePrintFile() throws IOException
