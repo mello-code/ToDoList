@@ -5,7 +5,6 @@ import maintodo.Status;
 public class Item
 {
 	private Status status;
-//	private int priority;
 	private String description;
 	private String dueDate;
 	private String optionalDate;
@@ -13,15 +12,14 @@ public class Item
 	public Item()
 	{
 		status = Status.NOT_STARTED;
-//		priority = -1;
-		description = "unspecified";
-		dueDate = "unspecified";
-		optionalDate = "-";
+		description = "Error! This text should not be seen.";
+		dueDate = "Error! This text should not be seen.";
+		optionalDate = "XXX";
 	}
 
-	public Item(String b, String c)
+	public Item(Status a, String b, String c)
 	{
-		status = Status.NOT_STARTED;
+		status = a;
 		description = b;
 		dueDate = c;
 		optionalDate = "-";
@@ -31,11 +29,6 @@ public class Item
 	{
 		return status;
 	}
-
-//	public int getPriority()
-//	{
-//		return priority;
-//	}
 
 	public String getDescription()
 	{
@@ -56,11 +49,6 @@ public class Item
 	{
 		status = input;
 	}
-
-//	public void setPriority(int input)
-//	{
-//		
-//	}
 
 	public void setDescription(String input)
 	{

@@ -17,6 +17,8 @@ import javax.swing.GroupLayout.Alignment;
 import javax.swing.GroupLayout;
 import javax.swing.LayoutStyle.ComponentPlacement;
 
+import java.awt.Color;
+import java.awt.Component;
 import java.awt.Font;
 import java.io.FileWriter;
 import java.io.PrintWriter;
@@ -42,18 +44,32 @@ public class Main extends javax.swing.JFrame
 		initComponents();
 
 		// preset for testing purposes
-		Item test = new Item("This is a preset", "04/16");
-		Item test2 = new Item("as a placeholder so you don't have to add new items", "07/18");
-		Item test3 = new Item("every single time we test some component of the program", "09/01");
-		Item test4 = new Item("If you wish to start the program without these preadded items", "09/01");
-		Item test5 = new Item("comment out line 65 to 78", "09/23");
-		Item blank = new Item("", "00/00");
-		Item test6 = new Item("Actual To-Do:", "10/04");
-		Item test7 = new Item("replace buttons with images", "11/18");
-		Item test8 = new Item("work on default sorting based on status", "11/18");
-		Item test9 = new Item("priority insertion and status tooltip", "12/31");
-		Item test10 = new Item("highlight boxes with red when encountering errors", "12/31");
-		Item test11 = new Item("description dynamic tabbing for report", "12/31");
+		Item test = new Item(Status.IN_PROGRESS, "This is a preset", "04/16");
+		Item test2 = new Item(Status.IN_PROGRESS, "as a placeholder so you don't have to add new items", "07/18");
+		Item test3 = new Item(Status.IN_PROGRESS, "every single time we test some component of the program", "09/01");
+		Item test4 = new Item(Status.IN_PROGRESS, "If you wish to start the program without these preadded items", "09/01");
+		Item test5 = new Item(Status.IN_PROGRESS, "comment out line 65 to 78", "09/23");
+		Item blank = new Item(Status.IN_PROGRESS, "", "00/00");
+		Item test6 = new Item(Status.IN_PROGRESS, "Actual To-Do:", "10/04");
+		Item test7 = new Item(Status.IN_PROGRESS, "replace buttons with images", "11/18");
+		Item test8 = new Item(Status.IN_PROGRESS, "work on default sorting based on status", "11/18");
+		Item test9 = new Item(Status.NOT_STARTED, "priority insertion and status tooltip", "12/31");
+		Item test10 = new Item(Status.NOT_STARTED, "highlight boxes with red when encountering errors", "12/31");
+		Item test11 = new Item(Status.NOT_STARTED, "description dynamic tabbing for report", "12/31");
+		Item test12 = new Item(Status.NOT_STARTED, "this is a completed item", "06/27");
+		Item test13 = new Item(Status.NOT_STARTED, "this is a deleted item", "06/05");
+		test.setOptionalDate("04/12");
+		test2.setOptionalDate("04/14");
+		test3.setOptionalDate("04/14");
+		test4.setOptionalDate("04/25");
+		test5.setOptionalDate("05/01");
+		test6.setOptionalDate("05/01");
+		test7.setOptionalDate("05/01");
+		test8.setOptionalDate("05/07");
+		test12.setStatus(Status.COMPLETED);
+		test12.setOptionalDate("06/05");
+		test13.setStatus(Status.DELETED);
+		test13.setOptionalDate("06/05");
 
 		// Comment this out to disable preset.
 		// Currently, updating the list overwrites the tableModel and therefore
@@ -73,7 +89,8 @@ public class Main extends javax.swing.JFrame
 		list.add(test9);
 		list.add(test10);
 		list.add(test11);
-		addToList(blank, -1);
+		list.add(test12);
+		addToList(test13, -1);
 
 	}
 
@@ -83,7 +100,13 @@ public class Main extends javax.swing.JFrame
 		switch (priority)
 		{
 			case -1:
-				list.add(item);
+				int index = 0;
+				for (Item i: list)
+				{
+					if (i.getStatus() == Status.DELETED) break;
+					index++;
+				}
+				list.add(index,item);
 				break;
 			default:
 				list.add(priority - 1, item);
@@ -120,9 +143,9 @@ public class Main extends javax.swing.JFrame
 	public static void veryElegantFormattingForJTable()
 	{
 		// cover your eyes
-		DefaultTableCellRenderer leftRenderer = new DefaultTableCellRenderer();
-		DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
-		DefaultTableCellRenderer rightRenderer = new DefaultTableCellRenderer();
+		DefaultTableCellRenderer leftRenderer = new customTableCellRenderer();
+		DefaultTableCellRenderer centerRenderer = new customTableCellRenderer();
+		DefaultTableCellRenderer rightRenderer = new customTableCellRenderer();
 
 		leftRenderer.setHorizontalAlignment(JLabel.LEFT);
 		centerRenderer.setHorizontalAlignment(JLabel.CENTER);
@@ -302,6 +325,32 @@ public class Main extends javax.swing.JFrame
 		pack();
 	}
 
+	static class customTableCellRenderer extends DefaultTableCellRenderer
+	{
+		public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column)
+		{
+			Component c = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
+			if (row < list.size())
+			{
+				switch (list.get(row).getStatus())
+				{
+					case IN_PROGRESS:
+						c.setForeground(Color.DARK_GRAY);
+						break;
+					case COMPLETED:
+						c.setForeground(new Color(77,189,144));
+						break;
+					case DELETED:
+						c.setForeground(new Color(255,16,83));
+						break;
+					default:
+						c.setForeground(new Color(125,125,125));
+				}
+			}
+			return c;
+		}
+	}
+
 	static class tableModel extends AbstractTableModel
 	{
 		private String[] columnNames = { "Status", "Priority", "Description", "Due", "Start/End" };
@@ -375,6 +424,8 @@ public class Main extends javax.swing.JFrame
 	{
 		if (listTable.getSelectedRow() < list.size())
 		{
+			list.add(list.get(listTable.getSelectedRow()));
+			list.get(list.size() - 1).setStatus(Status.DELETED);
 			list.remove(listTable.getSelectedRow());
 			refreshTable();
 		}
