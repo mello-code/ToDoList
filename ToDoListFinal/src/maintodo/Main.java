@@ -134,13 +134,13 @@ public class Main extends javax.swing.JFrame
 		switch (s)
 		{
 			case NOT_STARTED:
-				return "o";
+				return "\u2013";
 			case IN_PROGRESS:
-				return "~";
+				return "\u2053";
 			case COMPLETED:
-				return "-";
+				return "\u2713";
 			default:
-				return "x";
+				return "\u2613";
 		}
 	}
 
@@ -400,14 +400,12 @@ public class Main extends javax.swing.JFrame
 
 	private void onAddClicked(java.awt.event.ActionEvent evt)
 	{
-		System.out.println("Add");
 		Add addWindow = new Add();
 		addWindow.show();
 	}
 
 	private void onEditClicked(java.awt.event.ActionEvent evt)
 	{
-		System.out.println("Edit");
 		Edit editWindow = new Edit();
 		editWindow.show();
 	}

@@ -52,6 +52,11 @@ public class Item
 		return optionalDate;
 	}
 
+	public void setStatus(Status input)
+	{
+		status = status;
+	}
+
 //	public void setPriority(int input)
 //	{
 //		
