@@ -494,7 +494,7 @@ public class Main extends javax.swing.JFrame
 	{
 		FileWriter write = new FileWriter("ToDoList.txt", false);
 		PrintWriter print = new PrintWriter(write);
-		print.printf("%s" + "\t\t", "Status:");
+		print.printf("%s" + "\t", "Priority:");
 		print.printf("%s", padRight("Description:", 70));
 		print.printf("%s", padRight("Status:", 18));
 		print.printf("%s", padRight("Due Date:", 18));
@@ -502,12 +502,28 @@ public class Main extends javax.swing.JFrame
 		print.printf("%n");
 		for (int i = 0; i < list.size(); i++)
 		{
-			print.printf("%d" + "\t\t", i);
-			print.printf("%s", padRight(list.get(i).getDescription(), 70));
-			print.printf("%s", padRight(list.get(i).getStatus().name(), 18));
-			print.printf("%s", padRight(list.get(i).getDueDate(), 18));
-			print.printf("%s", padRight(list.get(i).getOptionalDate(), 20));
-			print.printf("%n");
+			if(list.get(i).getStatus().name() != "DELETED")
+			{
+				print.printf("%d" + "\t\t", i+1);
+				print.printf("%s", padRight(list.get(i).getDescription(), 70));
+				print.printf("%s", padRight(list.get(i).getStatus().name(), 18));
+				print.printf("%s", padRight(list.get(i).getDueDate(), 18));
+				print.printf("%s", padRight(list.get(i).getOptionalDate(), 20));
+				print.printf("%n");
+			}
+		}
+		print.printf("%n"+"%s"+"%n", "Deleted Items:");
+		for (int i = 0; i < list.size(); i++)
+		{
+			if(list.get(i).getStatus().name() == "DELETED")
+			{
+				print.printf("%s" + "\t\t", "-");
+				print.printf("%s", padRight(list.get(i).getDescription(), 70));
+				print.printf("%s", padRight(list.get(i).getStatus().name(), 18));
+				print.printf("%s", padRight(list.get(i).getDueDate(), 18));
+				print.printf("%s", padRight(list.get(i).getOptionalDate(), 20));
+				print.printf("%n");
+			}
 		}
 		// print.printf("%s"+"%n", text);
 		print.close();
