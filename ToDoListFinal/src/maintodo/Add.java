@@ -92,8 +92,10 @@ public class Add extends javax.swing.JFrame
 
 					if (notStartedButton.isSelected())
 					{
-						item.setOptionalDate("-");
 						item.setStatus(Status.NOT_STARTED);
+						item.setOptionalDate("-");
+
+						Main.addToList(item, Integer.parseInt(priorityTextField.getText()));
 					}
 					else
 					{
@@ -101,14 +103,24 @@ public class Add extends javax.swing.JFrame
 						Calendar cal = Calendar.getInstance();
 						cal.setTime(today);
 
+						item.setOptionalDate(formatDate(cal.get(Calendar.MONTH) + 1, cal.get(Calendar.DATE)));
+						
 						if (inProgressButton.isSelected())
+						{
 							item.setStatus(Status.IN_PROGRESS);
+
+							Main.addToList(item, Integer.parseInt(priorityTextField.getText()));
+						}
 						else
+						{
+							//item.setPriority();
 							item.setStatus(Status.COMPLETED);
-						item.setOptionalDate(formatDate(cal.get(Calendar.MONTH) + 1, cal.get(Calendar.DATE) + 1));
+
+							Main.addToList(item, -1);
+						}
+							
 					}
 
-					Main.addToList(item);
 					setVisible(false);
 					dispose();
 				}
