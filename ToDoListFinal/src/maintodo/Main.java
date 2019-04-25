@@ -122,12 +122,17 @@ public class Main extends javax.swing.JFrame
 				list.add(index, item);
 				break;
 			default:
-				if (priority < list.size() && (list.get(priority).getStatus() == Status.NOT_STARTED || list.get(priority).getStatus() == Status.IN_PROGRESS))
-					list.add(priority -1, item);
+				if (priority < list.size()
+						&& (list.get(priority).getStatus() == Status.NOT_STARTED || list.get(priority).getStatus() == Status.IN_PROGRESS))
+					list.add(priority - 1, item);
 				else
 				{
-					// shift priority down and add
-				}			
+					int newPriority = priority - 1;
+//					while (list.get(newPriority).getStatus())
+//					{
+//						
+//					}
+				}
 				break;
 		}
 
@@ -480,25 +485,23 @@ public class Main extends javax.swing.JFrame
 	{
 		if (listTable.getSelectedRow() < list.size())
 		{
-			list.add(list.get(listTable.getSelectedRow()));
-			list.get(list.size() - 1).setStatus(Status.DELETED);
 			list.remove(listTable.getSelectedRow());
 			refreshTable();
 		}
 
 	}
 
-
 	private void onSaveClicked(java.awt.event.ActionEvent evt)
 	{
 		App.setSession(list);
 	}
-	
+
 	private void onRestoreClicked(java.awt.event.ActionEvent evt)
 	{
 		System.out.println("Restore");
 		session = App.getSession();
-		for (int i = 0; i < session.size(); i++) {
+		for (int i = 0; i < session.size(); i++)
+		{
 			list.add(i, session.get(i));
 		}
 	}
