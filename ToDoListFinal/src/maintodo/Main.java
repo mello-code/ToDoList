@@ -35,6 +35,7 @@ public class Main extends javax.swing.JFrame
 
 	private JFrame frame;
 	private JTable table;
+	private static int selectedItem;
 	private static ArrayList<Item> list;
 
 	public Main()
@@ -49,7 +50,7 @@ public class Main extends javax.swing.JFrame
 		Item test3 = new Item(Status.IN_PROGRESS, "every single time we test some component of the program", "09/01");
 		Item test4 = new Item(Status.IN_PROGRESS, "If you wish to start the program without these preadded items", "09/01");
 		Item test5 = new Item(Status.IN_PROGRESS, "comment out line 65 to 78", "09/23");
-		Item blank = new Item(Status.IN_PROGRESS, "", "00/00");
+		Item blank = new Item(Status.IN_PROGRESS, "", "--/--");
 		Item test6 = new Item(Status.IN_PROGRESS, "Actual To-Do:", "10/04");
 		Item test7 = new Item(Status.IN_PROGRESS, "replace buttons with images", "11/18");
 		Item test8 = new Item(Status.IN_PROGRESS, "work on default sorting based on status", "11/18");
@@ -101,12 +102,13 @@ public class Main extends javax.swing.JFrame
 		{
 			case -1:
 				int index = 0;
-				for (Item i: list)
+				for (Item i : list)
 				{
-					if (i.getStatus() == Status.DELETED) break;
+					if (i.getStatus() == Status.DELETED)
+						break;
 					index++;
 				}
-				list.add(index,item);
+				list.add(index, item);
 				break;
 			default:
 				list.add(priority - 1, item);
@@ -114,6 +116,22 @@ public class Main extends javax.swing.JFrame
 		}
 
 		refreshTable();
+	}
+	
+	public static void editItem(Item item, int priority)
+	{
+		list.remove(selectedItem);
+		list.add(priority, item);
+	}
+
+	public static Item fetchItem()
+	{
+		return list.get(selectedItem);
+	}
+
+	public static int fetchIndex()
+	{
+		return selectedItem;
 	}
 
 	public static void refreshTable()
@@ -338,13 +356,13 @@ public class Main extends javax.swing.JFrame
 						c.setForeground(Color.DARK_GRAY);
 						break;
 					case COMPLETED:
-						c.setForeground(new Color(77,189,144));
+						c.setForeground(new Color(77, 189, 144));
 						break;
 					case DELETED:
-						c.setForeground(new Color(255,16,83));
+						c.setForeground(new Color(255, 16, 83));
 						break;
 					default:
-						c.setForeground(new Color(125,125,125));
+						c.setForeground(new Color(125, 125, 125));
 				}
 			}
 			return c;
@@ -416,8 +434,14 @@ public class Main extends javax.swing.JFrame
 
 	private void onEditClicked(java.awt.event.ActionEvent evt)
 	{
-		Edit editWindow = new Edit();
-		editWindow.show();
+		int selectedRow = listTable.getSelectedRow();
+		if (selectedRow >= 0 && selectedRow < list.size() && list.get(selectedRow).getStatus() != Status.DELETED)
+		{
+			selectedItem = listTable.getSelectedRow();
+
+			Edit editWindow = new Edit();
+			editWindow.show();
+		}
 	}
 
 	private void onDeleteClicked(java.awt.event.ActionEvent evt)
