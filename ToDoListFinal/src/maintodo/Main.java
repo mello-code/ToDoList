@@ -42,11 +42,13 @@ public class Main extends javax.swing.JFrame
 	private JTable table;
 	private static int selectedItem;
 	private static ArrayList<Item> list;
+	private static ArrayList<Item> session;
 
 	public Main()
 	{
 		setTitle("To Do List");
 		list = new ArrayList<Item>();
+		session = new ArrayList<Item>();
 		initComponents();
 
 		// preset for testing purposes
@@ -256,7 +258,7 @@ public class Main extends javax.swing.JFrame
 		{
 			public void actionPerformed(java.awt.event.ActionEvent evt)
 			{
-				onRestoreClicked(evt);
+				onSaveClicked(evt);
 			}
 		});
 
@@ -265,7 +267,7 @@ public class Main extends javax.swing.JFrame
 		{
 			public void actionPerformed(java.awt.event.ActionEvent evt)
 			{
-				onSaveClicked(evt);
+				onRestoreClicked(evt);
 			}
 		});
 
@@ -468,14 +470,19 @@ public class Main extends javax.swing.JFrame
 
 	}
 
-	private void onRestoreClicked(java.awt.event.ActionEvent evt)
-	{
-		System.out.println("Restore");
-	}
 
 	private void onSaveClicked(java.awt.event.ActionEvent evt)
 	{
-		System.out.println("Save");
+		App.setSession(list);
+	}
+	
+	private void onRestoreClicked(java.awt.event.ActionEvent evt)
+	{
+		System.out.println("Restore");
+		session = App.getSession();
+		for (int i = 0; i < session.size(); i++) {
+			list.add(i, session.get(i));
+		}
 	}
 
 	private void onPrintClicked(java.awt.event.ActionEvent evt) throws IOException
