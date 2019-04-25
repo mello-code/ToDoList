@@ -160,7 +160,7 @@ public class Add extends javax.swing.JFrame
 							// item.setPriority();
 							item.setStatus(Status.COMPLETED);
 
-							Main.addToList(item, 0);
+							Main.addToList(item, -1);
 						}
 
 					}

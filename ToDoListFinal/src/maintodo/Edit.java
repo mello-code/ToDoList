@@ -174,7 +174,7 @@ public class Edit extends javax.swing.JFrame
 							// item.setPriority();
 							item.setStatus(Status.COMPLETED);
 
-							Main.editItem(item, 0);
+							Main.editItem(item, -1);
 						}
 
 					}

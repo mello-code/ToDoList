@@ -109,7 +109,7 @@ public class Main extends javax.swing.JFrame
 	public static void addToList(Item item, int priority)
 	{
 		// add item to list
-		switch (priority - 1)
+		switch (priority)
 		{
 			case -1: // add a completed item
 				int index = 0;
@@ -123,7 +123,7 @@ public class Main extends javax.swing.JFrame
 				break;
 			default:
 				if (priority < list.size() && (list.get(priority).getStatus() == Status.NOT_STARTED || list.get(priority).getStatus() == Status.IN_PROGRESS))
-					list.add(priority, item);
+					list.add(priority -1, item);
 				else
 				{
 					// shift priority down and add
