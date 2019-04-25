@@ -54,7 +54,7 @@ public class Item
 
 	public void setStatus(Status input)
 	{
-		status = status;
+		status = input;
 	}
 
 //	public void setPriority(int input)

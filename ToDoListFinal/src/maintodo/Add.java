@@ -92,7 +92,7 @@ public class Add extends javax.swing.JFrame
 					Date today = new Date();
 					Calendar cal = Calendar.getInstance();
 					cal.setTime(today);
-					
+
 					item.setDescription(descriptionTextField.getText());
 					item.setDueDate(formatDate(Integer.parseInt(dueDateMonthTextField.getText()), Integer.parseInt(dueDateDayTextField.getText())));
 
@@ -107,10 +107,9 @@ public class Add extends javax.swing.JFrame
 							item.setStatus(Status.IN_PROGRESS);
 						else
 							item.setStatus(Status.COMPLETED);
-						item.setOptionalDate(formatDate(cal.get(Calendar.MONTH), cal.get(Calendar.DATE) + 1));
-						item.setStatus(Status.IN_PROGRESS);
+						item.setOptionalDate(formatDate(cal.get(Calendar.MONTH) + 1, cal.get(Calendar.DATE) + 1));
 					}
-					System.out.println(cal.get(Calendar.MONTH) + "   " + cal.get(Calendar.DATE));
+
 					Main.addToList(item);
 					setVisible(false);
 					dispose();
@@ -252,7 +251,7 @@ public class Add extends javax.swing.JFrame
 				dayS = "0" + dayS;
 			if (month < 10)
 				monthS = "0" + monthS;
-			return dayS + "/" + monthS;
+			return monthS + "/" + dayS;
 		}
 	}
 
