@@ -525,7 +525,6 @@ public class Main extends javax.swing.JFrame
 				print.printf("%n");
 			}
 		}
-		// print.printf("%s"+"%n", text);
 		print.close();
 	}
 
