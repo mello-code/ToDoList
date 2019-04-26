@@ -257,7 +257,7 @@ public class Main extends javax.swing.JFrame
 		listTable = new customTable();
 		printButton = new javax.swing.JButton();
 
-		setDefaultCloseOperation(javax.swing.WindowConstants.HIDE_ON_CLOSE); // config to save
+		setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE); // config to save
 
 		addButton.setText("Add");
 		addButton.addActionListener(new java.awt.event.ActionListener()
@@ -563,11 +563,32 @@ public class Main extends javax.swing.JFrame
             	objectOut.writeObject(i);
             }
             objectOut.close();
-            System.out.println("The Object  was succesfully written to a file");
+            fileOut.close();
+            System.out.println("The Object was succesfully written to a file");
         } catch (Exception ex) {
             ex.printStackTrace();
         }
 		
+	}
+
+	private void onRestoreClicked(java.awt.event.ActionEvent evt) throws IOException
+	{
+		System.out.println("Restore");
+		 try {
+	            FileInputStream fileIn = new FileInputStream(file);
+	            ObjectInputStream objectIn = new ObjectInputStream(fileIn);
+	            list = new ArrayList<Item>();
+	            while (fileIn.available() > 0) {
+	            	Item item = (Item)objectIn.readObject();
+	            	list.add(item);
+	            }
+	            refreshTable();
+	            objectIn.close();
+	            fileIn.close();
+	            System.out.println("The Object  was succesfully read from file");
+	        } catch (Exception ex) {
+	            ex.printStackTrace();
+	        }
 	}
 
 	private void onPrintClicked(java.awt.event.ActionEvent evt) throws IOException
