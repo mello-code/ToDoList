@@ -3,6 +3,7 @@ package maintodo;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -67,6 +68,11 @@ public class Main extends javax.swing.JFrame
 		session = new ArrayList<Item>();
 		initComponents();
 
+		enableItemPreset(); // Comment this out to disable preset.
+	}
+
+	public static void enableItemPreset()
+	{
 		// preset for testing purposes
 		Item test = new Item(Status.IN_PROGRESS, "This is a preset", "04/16");
 		Item test2 = new Item(Status.IN_PROGRESS, "as a placeholder so you don't have to add new items", "07/18");
@@ -85,6 +91,7 @@ public class Main extends javax.swing.JFrame
 		Item test14 = new Item(Status.DELETED, "this is a deleted item", "06/05");
 		Item test15 = new Item(Status.DELETED, "this is a different deleted item", "06/05");
 		Item test16 = new Item(Status.DELETED, "this too is a deleted item", "06/05");
+
 		test.setOptionalDate("04/12");
 		test2.setOptionalDate("04/14");
 		test3.setOptionalDate("04/14");
@@ -96,8 +103,6 @@ public class Main extends javax.swing.JFrame
 		test12.setOptionalDate("06/05");
 		test13.setOptionalDate("06/05");
 		test15.setOptionalDate("04/29");
-
-		// Comment this out to disable preset.
 
 		list.add(test);
 		list.add(test2);
@@ -118,7 +123,6 @@ public class Main extends javax.swing.JFrame
 		addToList(test14, -1);
 		addToList(test15, -1);
 		addToList(test16, -1);
-
 	}
 
 	public static void addToList(Item item, int priority)
@@ -142,8 +146,7 @@ public class Main extends javax.swing.JFrame
 		{
 			do
 				priority--;
-			while (priority >= list.size() || list.get(priority).getStatus() == Status.COMPLETED
-					|| list.get(priority).getStatus() == Status.DELETED);
+			while (priority >= list.size() || list.get(priority).getStatus() == Status.COMPLETED || list.get(priority).getStatus() == Status.DELETED);
 			list.add(priority + 1, item);
 		}
 		refreshTable();
@@ -183,13 +186,13 @@ public class Main extends javax.swing.JFrame
 			newModel.setValueAt(list.get(i).getDueDate(), i, 3);
 			newModel.setValueAt(list.get(i).getOptionalDate(), i, 4);
 		}
-		for (int i = list.size(); i < 26; i++)
-		{
-			for (int j = 0; j < 5; j++)
-			{
-				newModel.setValueAt(null, i, j);
-			}
-		}
+//		for (int i = list.size(); i < 26; i++)
+//		{
+//			for (int j = 0; j < 5; j++)
+//			{
+//				newModel.setValueAt(null, i, j);
+//			}
+//		}
 		// display data to table
 		listTable.setModel(newModel);
 		veryElegantFormattingForJTable();
@@ -251,7 +254,7 @@ public class Main extends javax.swing.JFrame
 		restoreButton = new javax.swing.JButton();
 		jPanel1 = new javax.swing.JPanel();
 		jScrollPane1 = new javax.swing.JScrollPane();
-		listTable = new javax.swing.JTable();
+		listTable = new customTable();
 		printButton = new javax.swing.JButton();
 
 		setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE); // config to save
@@ -343,11 +346,11 @@ public class Main extends javax.swing.JFrame
 		TableRowSorter<TableModel> sorter = new TableRowSorter<>(listTable.getModel());
 		listTable.setRowSorter(sorter);
 
-		ArrayList<RowSorter.SortKey> sortKeys = new ArrayList<>();
-		int columnIndexToSort = 1;
-		sortKeys.add(new RowSorter.SortKey(columnIndexToSort, SortOrder.ASCENDING));
-		sorter.setSortKeys(sortKeys);
-		sorter.sort();
+//		ArrayList<RowSorter.SortKey> sortKeys = new ArrayList<>();
+//		int columnIndexToSort = 1;
+//		sortKeys.add(new RowSorter.SortKey(columnIndexToSort, SortOrder.ASCENDING));
+//		sorter.setSortKeys(sortKeys);
+//		sorter.sort();
 
 		listTable.getColumnModel().getColumn(0).setResizable(false);
 		listTable.getColumnModel().getColumn(0).setPreferredWidth(40);
@@ -426,7 +429,47 @@ public class Main extends javax.swing.JFrame
 			return c;
 		}
 	}
+	
+	public class customTable extends JTable {
 
+	    @Override
+	    public int getRowCount() {
+	        // fake an additional row
+	        return super.getRowCount() + 1;
+	    }
+
+	    @Override
+	    public Object getValueAt(int row, int column) {
+	        if(row < super.getRowCount()) {
+	            return super.getValueAt(row, column);
+	        }
+	        return ""; // value to display in new line
+	    }
+
+	    @Override
+	    public int convertRowIndexToModel(int viewRowIndex) {
+	        if(viewRowIndex < super.getRowCount()) {
+	            return super.convertRowIndexToModel(viewRowIndex);
+	        }
+	        return super.getRowCount(); // can't convert our faked row
+	    }
+
+	    @Override
+	    public void setValueAt(Object aValue, int row, int column) {
+	        if(row < super.getRowCount()) {
+	            super.setValueAt(aValue, row, column);
+	        }
+	        else {
+	            Object[] rowData = new Object[getColumnCount()];
+	            Arrays.fill(rowData, "");
+	            rowData[convertColumnIndexToModel(column)] = aValue;
+	            // That's where we insert the new row.
+	            // Change this to work with your model.
+	            ((DefaultTableModel)getModel()).addRow(rowData);
+	        }
+	    }
+	}
+	
 	static class tableModel extends AbstractTableModel
 	{
 		private String[] columnNames = { "Status", "Priority", "Description", "Due", "Start/End" };
@@ -436,9 +479,7 @@ public class Main extends javax.swing.JFrame
 				{ null, null, null, null, null }, { null, null, null, null, null }, { null, null, null, null, null },
 				{ null, null, null, null, null }, { null, null, null, null, null }, { null, null, null, null, null },
 				{ null, null, null, null, null }, { null, null, null, null, null }, { null, null, null, null, null },
-				{ null, null, null, null, null }, { null, null, null, null, null }, { null, null, null, null, null },
-				{ null, null, null, null, null }, { null, null, null, null, null }, { null, null, null, null, null },
-				{ null, null, null, null, null }, { null, null, null, null, null }, { null, null, null, null, null }, };
+				{ null, null, null, null, null }, { null, null, null, null, null }, { null, null, null, null, null },};
 
 		public int getColumnCount()
 		{
@@ -563,8 +604,7 @@ public class Main extends javax.swing.JFrame
 		try
 		{
 			Runtime.getRuntime().exec("xdg-open ToDoList.txt");
-		}
-		catch(IOException e)
+		} catch (IOException e)
 		{
 		}
 	}
