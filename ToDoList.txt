@@ -6,14 +6,17 @@ Priority:	Description:                                                          
 5		comment out line 65 to 78                                             IN_PROGRESS       09/23             05/01               
 6		                                                                      IN_PROGRESS       --/--             -                   
 7		                                                                      IN_PROGRESS       --/--             -                   
-8		Actual To-Do:                                                         IN_PROGRESS       10/04             05/01               
+8		To-Do:                                                                IN_PROGRESS       10/04             05/01               
 9		                                                                      IN_PROGRESS       --/--             -                   
 10		replace buttons with images                                           IN_PROGRESS       11/18             05/01               
-11		work on default sorting based on status                               IN_PROGRESS       11/18             05/07               
-12		priority insertion and status tooltip                                 NOT_STARTED       12/31             -                   
-13		highlight boxes with red when encountering errors                     NOT_STARTED       12/31             -                   
-14		description dynamic tabbing for report                                NOT_STARTED       12/31             -                   
-15		this is a completed item                                              COMPLETED         06/27             06/05               
+11		sorting doesnt fully work                                             IN_PROGRESS       11/18             05/07               
+12		click status to change                                                NOT_STARTED       12/31             -                   
+13		save/restore                                                          NOT_STARTED       12/31             -                   
+14		                                                                      NOT_STARTED       12/31             -                   
+-		this is a completed item                                              COMPLETED         06/27             06/05               
+-		this is a different completed item                                    COMPLETED         06/28             06/05               
 
 Deleted Items:
--		this is a deleted item                                                DELETED           06/05             06/05               
+x		this too is a deleted item                                            DELETED           06/05             -                   
+x		this is a different deleted item                                      DELETED           06/05             04/29               
+x		this is a deleted item                                                DELETED           06/05             -                   
