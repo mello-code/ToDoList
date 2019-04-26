@@ -73,14 +73,14 @@ public class Main extends javax.swing.JFrame
 		sorter = new TableRowSorter<>(listTable.getModel());
 		listTable.setRowSorter(sorter);
 
-//		ArrayList<RowSorter.SortKey> sortKeys = new ArrayList<>();
-//		int columnIndexToSort = 1;
-//		sortKeys.add(new RowSorter.SortKey(columnIndexToSort, SortOrder.ASCENDING));
-//		sorter.setSortKeys(sortKeys);
-//		sorter.sort();
+		ArrayList<RowSorter.SortKey> sortKeys = new ArrayList<>();
+		int columnIndexToSort = 1;
+		sortKeys.add(new RowSorter.SortKey(columnIndexToSort, SortOrder.ASCENDING));
+		sorter.setSortKeys(sortKeys);
+		sorter.sort();
 
 		refreshTable();
-		enableItemPreset(); // Comment this out to disable preset.
+		//enableItemPreset(); // Comment this out to disable preset.
 	}
 
 	public static void enableItemPreset()
@@ -194,10 +194,8 @@ public class Main extends javax.swing.JFrame
 
 		// display data to table
 
-		TableRowSorter<TableModel> temp = new TableRowSorter<>(listTable.getModel());
 		listTable.setModel(newModel);
 		veryElegantFormattingForJTable();
-		listTable.setRowSorter(temp);
 	}
 
 	public static void veryElegantFormattingForJTable()
@@ -537,16 +535,16 @@ public class Main extends javax.swing.JFrame
 		public void updateData()
 		{
 			int displayCount = list.size();
-//			for (Item i: list)
-//			{
-//				if (i.getStatus() == Status.COMPLETED || i.getStatus() == Status.DELETED)
-//					displayCount --;
-//			}
+			for (Item i: list)
+			{
+				if (i.getStatus() == Status.COMPLETED || i.getStatus() == Status.DELETED)
+					displayCount --;
+			}
 			data = new Object[displayCount][5];
 			for (int i = 0; i < data.length; i++)
 			{
-//				if (list.get(i).getStatus() == Status.COMPLETED || list.get(i).getStatus() == Status.DELETED)
-//					break;
+				if (list.get(i).getStatus() == Status.COMPLETED || list.get(i).getStatus() == Status.DELETED)
+					break;
 				data[i][0] = statusToSymbol(list.get(i).getStatus());
 				data[i][1] = i + 1;
 				data[i][2] = "  " + list.get(i).getDescription();
@@ -587,12 +585,12 @@ public class Main extends javax.swing.JFrame
 		if (selectedRow < list.size())
 		{
 			selectedRow = listTable.getRowSorter().convertRowIndexToModel(selectedRow);
-			if (listTable.getSelectedRow() < list.size() && listTable.getSelectedRow() > -1
-					&& list.get(listTable.getSelectedRow()).getStatus() != Status.DELETED)
+			if (selectedRow < list.size() && selectedRow > -1
+					&& list.get(selectedRow).getStatus() != Status.DELETED)
 			{
-				Item temp = list.get(listTable.getSelectedRow());
+				Item temp = list.get(selectedRow);
 				temp.setStatus(Status.DELETED);
-				list.remove(listTable.getSelectedRow());
+				list.remove(selectedRow);
 				list.add(temp);
 
 				
