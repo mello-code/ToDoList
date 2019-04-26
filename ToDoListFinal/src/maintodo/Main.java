@@ -62,12 +62,12 @@ public class Main extends javax.swing.JFrame
 		Item test4 = new Item(Status.IN_PROGRESS, "If you wish to start the program without these preadded items", "09/01");
 		Item test5 = new Item(Status.IN_PROGRESS, "comment out line 65 to 78", "09/23");
 		Item blank = new Item(Status.IN_PROGRESS, "", "--/--");
-		Item test6 = new Item(Status.IN_PROGRESS, "Actual To-Do:", "10/04");
+		Item test6 = new Item(Status.IN_PROGRESS, "To-Do:", "10/04");
 		Item test7 = new Item(Status.IN_PROGRESS, "replace buttons with images", "11/18");
-		Item test8 = new Item(Status.IN_PROGRESS, "work on default sorting based on status", "11/18");
-		Item test9 = new Item(Status.NOT_STARTED, "priority insertion and status tooltip", "12/31");
-		Item test10 = new Item(Status.NOT_STARTED, "highlight boxes with red when encountering errors", "12/31");
-		Item test11 = new Item(Status.NOT_STARTED, "description dynamic tabbing for report", "12/31");
+		Item test8 = new Item(Status.IN_PROGRESS, "sorting doesnt fully work", "11/18");
+		Item test9 = new Item(Status.NOT_STARTED, "click status to change", "12/31");
+		Item test10 = new Item(Status.NOT_STARTED, "save/restore", "12/31");
+		Item test11 = new Item(Status.NOT_STARTED, "", "12/31");
 		Item test12 = new Item(Status.COMPLETED, "this is a completed item", "06/27");
 		Item test13 = new Item(Status.COMPLETED, "this is a different completed item", "06/28");
 		Item test14 = new Item(Status.DELETED, "this is a deleted item", "06/05");
@@ -86,8 +86,6 @@ public class Main extends javax.swing.JFrame
 		test15.setOptionalDate("04/29");
 
 		// Comment this out to disable preset.
-		// Currently, updating the list overwrites the tableModel and therefore
-		// disregards table formats set by WindowBuilder (till I update it)
 
 		list.add(test);
 		list.add(test2);
