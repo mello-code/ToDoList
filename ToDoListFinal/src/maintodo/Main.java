@@ -665,7 +665,14 @@ public class Main extends javax.swing.JFrame
 		{
 			if (list.get(i).getStatus().name() != "DELETED")
 			{
-				print.printf("%d" + "\t\t", i + 1);
+				if(list.get(i).getStatus().name() == "COMPLETED")
+				{
+					print.printf("%s" + "\t\t", "-");
+				}
+				else
+				{
+					print.printf("%d" + "\t\t", i + 1);
+				}
 				print.printf("%s", padRight(list.get(i).getDescription(), 70));
 				print.printf("%s", padRight(list.get(i).getStatus().name(), 18));
 				print.printf("%s", padRight(list.get(i).getDueDate(), 18));
@@ -678,7 +685,7 @@ public class Main extends javax.swing.JFrame
 		{
 			if (list.get(i).getStatus().name() == "DELETED")
 			{
-				print.printf("%s" + "\t\t", "-");
+				print.printf("%s" + "\t\t", "x");
 				print.printf("%s", padRight(list.get(i).getDescription(), 70));
 				print.printf("%s", padRight(list.get(i).getStatus().name(), 18));
 				print.printf("%s", padRight(list.get(i).getDueDate(), 18));
