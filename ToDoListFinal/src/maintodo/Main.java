@@ -59,6 +59,7 @@ public class Main extends javax.swing.JFrame
 	private static int selectedItem;
 	private static ArrayList<Item> list;
 	private static ArrayList<Item> session;
+	private static TableRowSorter<TableModel> sorter;
 	static File file = new File("ObjectIO.txt");
 
 	public Main()
@@ -68,7 +69,6 @@ public class Main extends javax.swing.JFrame
 		session = new ArrayList<Item>();
 		initComponents();
 
-<<<<<<< HEAD
 		listTable.setAutoCreateRowSorter(true);
 		sorter = new TableRowSorter<>(listTable.getModel());
 		listTable.setRowSorter(sorter);
@@ -79,10 +79,8 @@ public class Main extends javax.swing.JFrame
 		sorter.setSortKeys(sortKeys);
 		sorter.sort();
 
-=======
->>>>>>> parent of cab097b... asda
 		refreshTable();
-		//enableItemPreset(); // Comment this out to disable preset.
+		enableItemPreset(); // Comment this out to disable preset.
 	}
 
 	public static void enableItemPreset()
@@ -195,10 +193,7 @@ public class Main extends javax.swing.JFrame
 		newModel.updateData();
 
 		// display data to table
-<<<<<<< HEAD
 
-=======
->>>>>>> parent of cab097b... asda
 		listTable.setModel(newModel);
 		veryElegantFormattingForJTable();
 	}
@@ -339,7 +334,6 @@ public class Main extends javax.swing.JFrame
 			}
 		});
 
-		listTable.setAutoCreateRowSorter(true);
 		listTable.setModel(new DefaultTableModel(
 				new Object[][] { { null, null, null, null, null }, { null, null, null, null, null }, { null, null, null, null, null },
 						{ null, null, null, null, null }, { null, null, null, null, null }, { null, null, null, null, null },
@@ -350,15 +344,6 @@ public class Main extends javax.swing.JFrame
 						{ null, null, null, null, null }, { null, null, null, null, null }, { null, null, null, null, null },
 						{ null, null, null, null, null }, { null, null, null, null, null }, { null, null, null, null, null } },
 				new String[] { "Status", "Priority", "Description", "Due", "Start/End" }));
-
-		TableRowSorter<TableModel> sorter = new TableRowSorter<>(listTable.getModel());
-		listTable.setRowSorter(sorter);
-
-//		ArrayList<RowSorter.SortKey> sortKeys = new ArrayList<>();
-//		int columnIndexToSort = 1;
-//		sortKeys.add(new RowSorter.SortKey(columnIndexToSort, SortOrder.ASCENDING));
-//		sorter.setSortKeys(sortKeys);
-//		sorter.sort();
 
 		listTable.getColumnModel().getColumn(0).setResizable(false);
 		listTable.getColumnModel().getColumn(0).setPreferredWidth(40);
@@ -417,9 +402,12 @@ public class Main extends javax.swing.JFrame
 		public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column)
 		{
 			Component c = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
+			
 			if (row < list.size())
 			{
-				switch (list.get(row).getStatus())
+				int modelRow = listTable.getRowSorter().convertRowIndexToModel(row);
+				
+				switch (list.get(modelRow).getStatus())
 				{
 					case IN_PROGRESS:
 						c.setForeground(Color.DARK_GRAY);
@@ -493,7 +481,6 @@ public class Main extends javax.swing.JFrame
 	{
 		private String[] columnNames = { "Status", "Priority", "Description", "Due", "Start/End" };
 		private Object[][] data;
-		// private ArrayList<Object[]> data = new ArrayList<Object[]>();
 
 		public int getColumnCount()
 		{
@@ -548,16 +535,16 @@ public class Main extends javax.swing.JFrame
 		public void updateData()
 		{
 			int displayCount = list.size();
-			for (Item i: list)
-			{
-				if (i.getStatus() == Status.COMPLETED || i.getStatus() == Status.DELETED)
-					displayCount --;
-			}
+//			for (Item i: list)
+//			{
+//				if (i.getStatus() == Status.COMPLETED || i.getStatus() == Status.DELETED)
+//					displayCount --;
+//			}
 			data = new Object[displayCount][5];
 			for (int i = 0; i < data.length; i++)
 			{
-				if (list.get(i).getStatus() == Status.COMPLETED || list.get(i).getStatus() == Status.DELETED)
-					break;
+//				if (list.get(i).getStatus() == Status.COMPLETED || list.get(i).getStatus() == Status.DELETED)
+//					break;
 				data[i][0] = statusToSymbol(list.get(i).getStatus());
 				data[i][1] = i + 1;
 				data[i][2] = "  " + list.get(i).getDescription();
@@ -576,21 +563,27 @@ public class Main extends javax.swing.JFrame
 	private void onEditClicked(java.awt.event.ActionEvent evt)
 	{
 		int selectedRow = listTable.getSelectedRow();
-		if (selectedRow >= 0 && selectedRow < list.size() && list.get(selectedRow).getStatus() != Status.DELETED)
+		if (selectedRow < list.size())
 		{
-			selectedItem = listTable.getSelectedRow();
+			selectedRow = listTable.getRowSorter().convertRowIndexToModel(selectedRow);
+			if (selectedRow >= 0 && selectedRow < list.size() && list.get(selectedRow).getStatus() != Status.DELETED)
+			{
+				
+				selectedItem = listTable.getSelectedRow();
+				selectedItem = selectedRow;
 
-			Edit editWindow = new Edit();
-			editWindow.show();
+				Edit editWindow = new Edit();
+				editWindow.show();
+			}
 		}
+		refreshTable();
 	}
 
 	private void onDeleteClicked(java.awt.event.ActionEvent evt)
 	{
-		if (listTable.getSelectedRow() < list.size() && listTable.getSelectedRow() > -1
-				&& list.get(listTable.getSelectedRow()).getStatus() != Status.DELETED)
+		int selectedRow = listTable.getSelectedRow();
+		if (selectedRow < list.size())
 		{
-<<<<<<< HEAD
 			selectedRow = listTable.getRowSorter().convertRowIndexToModel(selectedRow);
 			if (selectedRow < list.size() && selectedRow > -1
 					&& list.get(selectedRow).getStatus() != Status.DELETED)
@@ -599,16 +592,11 @@ public class Main extends javax.swing.JFrame
 				temp.setStatus(Status.DELETED);
 				list.remove(selectedRow);
 				list.add(temp);
-=======
-			Item temp = list.get(listTable.getSelectedRow());
-			temp.setStatus(Status.DELETED);
-			list.remove(listTable.getSelectedRow());
-			list.add(temp);
->>>>>>> parent of cab097b... asda
 
-			refreshTable();
+				
+			}
 		}
-
+		refreshTable();
 	}
 
 	private void onSaveClicked(java.awt.event.ActionEvent evt) throws IOException
@@ -667,12 +655,6 @@ public class Main extends javax.swing.JFrame
 		}
 		try
 		{
-			Runtime.getRuntime().exec("open -e ToDoList.txt");
-		} catch (IOException e)
-		{
-		}
-		try
-		{
 			Runtime.getRuntime().exec("xdg-open ToDoList.txt");
 		} catch (IOException e)
 		{
@@ -693,14 +675,7 @@ public class Main extends javax.swing.JFrame
 		{
 			if (list.get(i).getStatus().name() != "DELETED")
 			{
-				if(list.get(i).getStatus().name() == "COMPLETED")
-				{
-					print.printf("%s" + "\t\t", "-");
-				}
-				else
-				{
-					print.printf("%d" + "\t\t", i + 1);
-				}
+				print.printf("%d" + "\t\t", i + 1);
 				print.printf("%s", padRight(list.get(i).getDescription(), 70));
 				print.printf("%s", padRight(list.get(i).getStatus().name(), 18));
 				print.printf("%s", padRight(list.get(i).getDueDate(), 18));
@@ -713,7 +688,7 @@ public class Main extends javax.swing.JFrame
 		{
 			if (list.get(i).getStatus().name() == "DELETED")
 			{
-				print.printf("%s" + "\t\t", "x");
+				print.printf("%s" + "\t\t", "-");
 				print.printf("%s", padRight(list.get(i).getDescription(), 70));
 				print.printf("%s", padRight(list.get(i).getStatus().name(), 18));
 				print.printf("%s", padRight(list.get(i).getDueDate(), 18));
