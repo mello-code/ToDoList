@@ -608,6 +608,12 @@ public class Main extends javax.swing.JFrame
 		}
 		try
 		{
+			Runtime.getRuntime().exec("open -e ToDoList.txt");
+		} catch (IOException e)
+		{
+		}
+		try
+		{
 			Runtime.getRuntime().exec("xdg-open ToDoList.txt");
 		} catch (IOException e)
 		{
