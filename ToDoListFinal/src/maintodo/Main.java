@@ -560,7 +560,7 @@ public class Main extends javax.swing.JFrame
             FileOutputStream fileOut = new FileOutputStream(file);
             ObjectOutputStream objectOut = new ObjectOutputStream(fileOut);
             for (Item i : list) {
-            	objectOut.writeObject(i);;
+            	objectOut.writeObject(i);
             }
             objectOut.close();
             System.out.println("The Object  was succesfully written to a file");
@@ -568,22 +568,6 @@ public class Main extends javax.swing.JFrame
             ex.printStackTrace();
         }
 		
-	}
-
-	private void onRestoreClicked(java.awt.event.ActionEvent evt) throws IOException
-	{
-		System.out.println("Restore");
-		 try {
-	            FileInputStream fileIn = new FileInputStream(file);
-	            ObjectInputStream objectIn = new ObjectInputStream(fileIn);
-	            for (Item i : list) {
-	            	i = (Item)objectIn.readObject();
-	            }
-	            objectIn.close();
-	            System.out.println("The Object  was succesfully read from file");
-	        } catch (Exception ex) {
-	            ex.printStackTrace();
-	        }
 	}
 
 	private void onPrintClicked(java.awt.event.ActionEvent evt) throws IOException
