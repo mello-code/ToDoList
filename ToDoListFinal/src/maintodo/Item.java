@@ -1,8 +1,10 @@
 package maintodo;
 
+import java.io.Serializable;
+
 import maintodo.Status;
 
-public class Item
+public class Item implements Serializable
 {
 	private Status status;
 	private String description;

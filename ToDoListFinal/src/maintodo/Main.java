@@ -33,6 +33,17 @@ import javax.swing.SortOrder;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
 
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.IOException;
+import java.util.Arrays;
+import java.util.Properties;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.File;
+
 /**
  * NOTE: Design tab will only work when variable listTable isn't static.
  * However, program won't run if it isn't static. When messing with desgin tab,
@@ -47,6 +58,7 @@ public class Main extends javax.swing.JFrame
 	private static int selectedItem;
 	private static ArrayList<Item> list;
 	private static ArrayList<Item> session;
+	static File file = new File("ObjectIO.txt");
 
 	public Main()
 	{
@@ -277,7 +289,12 @@ public class Main extends javax.swing.JFrame
 		{
 			public void actionPerformed(java.awt.event.ActionEvent evt)
 			{
-				onSaveClicked(evt);
+				try {
+					onSaveClicked(evt);
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 			}
 		});
 
@@ -286,7 +303,12 @@ public class Main extends javax.swing.JFrame
 		{
 			public void actionPerformed(java.awt.event.ActionEvent evt)
 			{
-				onRestoreClicked(evt);
+				try {
+					onRestoreClicked(evt);
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 			}
 		});
 
@@ -491,20 +513,37 @@ public class Main extends javax.swing.JFrame
 
 	}
 
-	private void onSaveClicked(java.awt.event.ActionEvent evt)
+	private void onSaveClicked(java.awt.event.ActionEvent evt) throws IOException
 	{
 		System.out.println("Save");
-		App.setSession(list);
+		try {
+            FileOutputStream fileOut = new FileOutputStream(file);
+            ObjectOutputStream objectOut = new ObjectOutputStream(fileOut);
+            for (Item i : list) {
+            	objectOut.writeObject(i);;
+            }
+            objectOut.close();
+            System.out.println("The Object  was succesfully written to a file");
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+		
 	}
 
-	private void onRestoreClicked(java.awt.event.ActionEvent evt)
+	private void onRestoreClicked(java.awt.event.ActionEvent evt) throws IOException
 	{
 		System.out.println("Restore");
-		session = new ArrayList<Item>();
-		session = App.getSession();
-		for (Item i : session) { // ERROR: nullptr on session
-			list.add(i);
-		}
+		 try {
+	            FileInputStream fileIn = new FileInputStream(file);
+	            ObjectInputStream objectIn = new ObjectInputStream(fileIn);
+	            for (Item i : list) {
+	            	i = (Item)objectIn.readObject();
+	            }
+	            objectIn.close();
+	            System.out.println("The Object  was succesfully read from file");
+	        } catch (Exception ex) {
+	            ex.printStackTrace();
+	        }
 	}
 
 	private void onPrintClicked(java.awt.event.ActionEvent evt) throws IOException
