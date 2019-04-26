@@ -28,7 +28,7 @@ public class Edit extends javax.swing.JFrame
 		setType(Type.POPUP);
 		setResizable(false);
 		setAlwaysOnTop(true);
-		setTitle("Edit an item");
+		setTitle("Add a new item");
 		initComponents();
 	}
 
@@ -41,8 +41,8 @@ public class Edit extends javax.swing.JFrame
 		descriptionTextField.setBackground(Color.WHITE);
 		dueDateLabel = new javax.swing.JLabel();
 		dueDateLabel.setHorizontalAlignment(SwingConstants.RIGHT);
+		dueDateMonthTextField = new javax.swing.JTextField();
 		dueDateDayTextField = new javax.swing.JTextField();
-		dueDateMonthTextField = new JTextField();
 		priorityLabel = new javax.swing.JLabel();
 		priorityLabel.setHorizontalAlignment(SwingConstants.RIGHT);
 		dueDateLabel.setHorizontalAlignment(SwingConstants.RIGHT);
@@ -58,8 +58,8 @@ public class Edit extends javax.swing.JFrame
 		int index = Main.fetchIndex();
 
 		descriptionTextField.setText(item.getDescription());
-		dueDateDayTextField.setText(item.getDueDate().substring(0, 2));
-		dueDateMonthTextField.setText(item.getDueDate().substring(3, 5));
+		dueDateMonthTextField.setText(item.getDueDate().substring(0, 2));
+		dueDateDayTextField.setText(item.getDueDate().substring(3, 5));
 		priorityTextField.setText(index + 1 + "");
 		if (item.getStatus() == Status.NOT_STARTED)
 			notStartedButton.setSelected(true);
@@ -80,11 +80,11 @@ public class Edit extends javax.swing.JFrame
 			public void mouseReleased(MouseEvent e)
 			{
 				boolean priorityCheck = CheckInt(priorityTextField.getText());
-				boolean dateDayCheck = CheckInt(dueDateDayTextField.getText());
 				boolean dateMonthCheck = CheckInt(dueDateMonthTextField.getText());
+				boolean dateDayCheck = CheckInt(dueDateDayTextField.getText());
 				descriptionTextField.setBorder(new LineBorder(Color.GRAY, 1));
-				dueDateDayTextField.setBorder(new LineBorder(Color.GRAY, 1));
 				dueDateMonthTextField.setBorder(new LineBorder(Color.GRAY, 1));
+				dueDateDayTextField.setBorder(new LineBorder(Color.GRAY, 1));
 				priorityTextField.setBorder(new LineBorder(Color.GRAY, 1));
 
 				if (descriptionTextField.getText().equals(""))
@@ -153,21 +153,24 @@ public class Edit extends javax.swing.JFrame
 						item.setStatus(Status.NOT_STARTED);
 						item.setOptionalDate("-");
 
-						Main.editItem(item, Integer.parseInt(priorityTextField.getText()));
+						Main.editItem(item, Integer.parseInt(priorityTextField.getText()) -1);
 					}
 					else
 					{
 						Date today = new Date();
 						Calendar cal = Calendar.getInstance();
 						cal.setTime(today);
-
-						item.setOptionalDate(formatDate(cal.get(Calendar.MONTH) + 1, cal.get(Calendar.DATE)));
-
+						
+						if (Main.fetchItem().getOptionalDate().equals("-"))
+							item.setOptionalDate(formatDate(cal.get(Calendar.MONTH) + 1, cal.get(Calendar.DATE)));
+						else
+							item.setOptionalDate(Main.fetchItem().getOptionalDate());
+						
 						if (inProgressButton.isSelected())
 						{
 							item.setStatus(Status.IN_PROGRESS);
 
-							Main.editItem(item, Integer.parseInt(priorityTextField.getText()));
+							Main.editItem(item, Integer.parseInt(priorityTextField.getText()) - 1);
 						}
 						else
 						{
@@ -253,10 +256,10 @@ public class Edit extends javax.swing.JFrame
 												.addGroup(layout.createSequentialGroup()
 														.addGroup(layout.createParallelGroup(Alignment.LEADING, false).addComponent(priorityTextField)
 																.addGroup(layout.createSequentialGroup()
-																		.addComponent(dueDateDayTextField, GroupLayout.PREFERRED_SIZE, 36,
+																		.addComponent(dueDateMonthTextField, GroupLayout.PREFERRED_SIZE, 36,
 																				GroupLayout.PREFERRED_SIZE)
 																		.addGap(6).addComponent(slash)))
-														.addPreferredGap(ComponentPlacement.RELATED).addComponent(dueDateMonthTextField,
+														.addPreferredGap(ComponentPlacement.RELATED).addComponent(dueDateDayTextField,
 																GroupLayout.PREFERRED_SIZE, 36, GroupLayout.PREFERRED_SIZE)))))
 						.addGap(82)));
 		layout.setVerticalGroup(layout.createParallelGroup(Alignment.LEADING)
@@ -265,8 +268,8 @@ public class Edit extends javax.swing.JFrame
 								GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
 						.addPreferredGap(ComponentPlacement.RELATED)
 						.addGroup(layout.createParallelGroup(Alignment.BASELINE).addComponent(dueDateLabel)
-								.addComponent(dueDateDayTextField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 								.addComponent(dueDateMonthTextField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+								.addComponent(dueDateDayTextField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 								.addComponent(slash))
 						.addPreferredGap(ComponentPlacement.RELATED)
 						.addGroup(
@@ -305,9 +308,9 @@ public class Edit extends javax.swing.JFrame
 	public boolean duplicateCheck(String descriptionWithoutSpaces)
 	{
 		ArrayList<Item> list = Main.fetchItems();
-		for (Item item : list)
+		for (int i = 0; i < list.size(); i++)
 		{
-			if (item.getDescription().replaceAll("\\s+", "").equals(descriptionWithoutSpaces))
+			if (list.get(i).getDescription().replaceAll("\\s+", "").equals(descriptionWithoutSpaces) && i != Main.fetchIndex())
 				return true;
 		}
 		return false;
@@ -368,8 +371,8 @@ public class Edit extends javax.swing.JFrame
 	private javax.swing.JRadioButton notStartedButton;
 	private javax.swing.JRadioButton completedButton;
 	private javax.swing.JTextField descriptionTextField;
-	private javax.swing.JTextField dueDateDayTextField;
 	private javax.swing.JTextField dueDateMonthTextField;
+	private javax.swing.JTextField dueDateDayTextField;
 	private javax.swing.JTextField priorityTextField;
 	private JLabel detailLabel;
 	private JLabel decriptionLabel;

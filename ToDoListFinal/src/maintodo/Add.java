@@ -139,7 +139,7 @@ public class Add extends javax.swing.JFrame
 						item.setStatus(Status.NOT_STARTED);
 						item.setOptionalDate("-");
 
-						Main.addToList(item, Integer.parseInt(priorityTextField.getText()));
+						Main.addToList(item, Integer.parseInt(priorityTextField.getText()) -1);
 					}
 					else
 					{
@@ -153,7 +153,7 @@ public class Add extends javax.swing.JFrame
 						{
 							item.setStatus(Status.IN_PROGRESS);
 
-							Main.addToList(item, Integer.parseInt(priorityTextField.getText()));
+							Main.addToList(item, Integer.parseInt(priorityTextField.getText()) - 1);
 						}
 						else
 						{
