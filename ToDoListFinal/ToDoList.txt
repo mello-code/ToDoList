@@ -10,13 +10,13 @@ Priority:	Description:                                                          
 9		                                                                      IN_PROGRESS       --/--             -                   
 10		replace buttons with images                                           IN_PROGRESS       11/18             05/01               
 11		sorting doesnt fully work                                             IN_PROGRESS       11/18             05/07               
-12		click status to change                                                NOT_STARTED       12/31             -                   
-13		save/restore                                                          NOT_STARTED       12/31             -                   
-14		                                                                      NOT_STARTED       12/31             -                   
-15		this is a completed item                                              COMPLETED         06/27             06/05               
-16		this is a different completed item                                    COMPLETED         06/28             06/05               
+12		save/restore                                                          NOT_STARTED       12/31             -                   
+13		                                                                      NOT_STARTED       12/31             -                   
+14		this is a completed item                                              COMPLETED         06/27             06/05               
+15		this is a different completed item                                    COMPLETED         06/28             06/05               
 
 Deleted Items:
 -		this too is a deleted item                                            DELETED           06/05             -                   
 -		this is a different deleted item                                      DELETED           06/05             04/29               
 -		this is a deleted item                                                DELETED           06/05             -                   
+-		click status to change                                                DELETED           12/31             -                   

@@ -28,7 +28,7 @@ public class Edit extends javax.swing.JFrame
 		setType(Type.POPUP);
 		setResizable(false);
 		setAlwaysOnTop(true);
-		setTitle("Edit an item");
+		setTitle("Add a new item");
 		initComponents();
 	}
 
