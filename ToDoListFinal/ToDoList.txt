@@ -14,6 +14,9 @@ Priority:	Description:                                                          
 13		highlight boxes with red when encountering errors                     NOT_STARTED       12/31             -                   
 14		description dynamic tabbing for report                                NOT_STARTED       12/31             -                   
 15		this is a completed item                                              COMPLETED         06/27             06/05               
+16		this is a different completed item                                    COMPLETED         06/28             06/05               
 
 Deleted Items:
--		this is a deleted item                                                DELETED           06/05             06/05               
+-		this too is a deleted item                                            DELETED           06/05             -                   
+-		this is a different deleted item                                      DELETED           06/05             04/29               
+-		this is a deleted item                                                DELETED           06/05             -                   

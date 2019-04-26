@@ -68,8 +68,11 @@ public class Main extends javax.swing.JFrame
 		Item test9 = new Item(Status.NOT_STARTED, "priority insertion and status tooltip", "12/31");
 		Item test10 = new Item(Status.NOT_STARTED, "highlight boxes with red when encountering errors", "12/31");
 		Item test11 = new Item(Status.NOT_STARTED, "description dynamic tabbing for report", "12/31");
-		Item test12 = new Item(Status.NOT_STARTED, "this is a completed item", "06/27");
-		Item test13 = new Item(Status.NOT_STARTED, "this is a deleted item", "06/05");
+		Item test12 = new Item(Status.COMPLETED, "this is a completed item", "06/27");
+		Item test13 = new Item(Status.COMPLETED, "this is a different completed item", "06/28");
+		Item test14 = new Item(Status.DELETED, "this is a deleted item", "06/05");
+		Item test15 = new Item(Status.DELETED, "this is a different deleted item", "06/05");
+		Item test16 = new Item(Status.DELETED, "this too is a deleted item", "06/05");
 		test.setOptionalDate("04/12");
 		test2.setOptionalDate("04/14");
 		test3.setOptionalDate("04/14");
@@ -78,10 +81,9 @@ public class Main extends javax.swing.JFrame
 		test6.setOptionalDate("05/01");
 		test7.setOptionalDate("05/01");
 		test8.setOptionalDate("05/07");
-		test12.setStatus(Status.COMPLETED);
 		test12.setOptionalDate("06/05");
-		test13.setStatus(Status.DELETED);
 		test13.setOptionalDate("06/05");
+		test15.setOptionalDate("04/29");
 
 		// Comment this out to disable preset.
 		// Currently, updating the list overwrites the tableModel and therefore
@@ -102,7 +104,10 @@ public class Main extends javax.swing.JFrame
 		list.add(test10);
 		list.add(test11);
 		list.add(test12);
-		addToList(test13, -1);
+		list.add(test13);
+		addToList(test14, -1);
+		addToList(test15, -1);
+		addToList(test16, -1);
 
 	}
 
@@ -137,7 +142,8 @@ public class Main extends javax.swing.JFrame
 	public static void editItem(Item item, int priority)
 	{
 		list.remove(selectedItem);
-		list.add(priority, item);
+		addToList(item, priority);
+		refreshTable();
 	}
 
 	public static Item fetchItem()
