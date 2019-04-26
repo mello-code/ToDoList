@@ -57,7 +57,6 @@ public class Main extends javax.swing.JFrame
 	private JFrame frame;
 	private JTable table;
 	private static int selectedItem;
-	private static int rowCount;
 	private static ArrayList<Item> list;
 	private static ArrayList<Item> session;
 	static File file = new File("ObjectIO.txt");
@@ -67,7 +66,6 @@ public class Main extends javax.swing.JFrame
 		setTitle("To Do List");
 		list = new ArrayList<Item>();
 		session = new ArrayList<Item>();
-		rowCount = 25;
 		initComponents();
 
 		enableItemPreset(); // Comment this out to disable preset.
@@ -180,21 +178,8 @@ public class Main extends javax.swing.JFrame
 	{
 		// set up data[][] for refreshing the table
 		tableModel newModel = new tableModel();
-		for (int i = 0; i < list.size(); i++)
-		{
-			newModel.setValueAt(statusToSymbol(list.get(i).getStatus()), i, 0);
-			newModel.setValueAt(i + 1, i, 1);
-			newModel.setValueAt("  " + list.get(i).getDescription(), i, 2);
-			newModel.setValueAt(list.get(i).getDueDate(), i, 3);
-			newModel.setValueAt(list.get(i).getOptionalDate(), i, 4);
-		}
-//		for (int i = list.size(); i < 26; i++)
-//		{
-//			for (int j = 0; j < 5; j++)
-//			{
-//				newModel.setValueAt(null, i, j);
-//			}
-//		}
+		newModel.updateData();
+		
 		// display data to table
 		listTable.setModel(newModel);
 		veryElegantFormattingForJTable();
@@ -434,13 +419,13 @@ public class Main extends javax.swing.JFrame
 	
 	public class customTable extends JTable {
 
-//	    @Override
-//	    public int getRowCount() {
-//	    	if (list.size() < 25)
-//	    		return 25; //super.getRowCount()
-//	    	else
-//	    		return list.size();
-//	    }
+	    @Override
+	    public int getRowCount() {
+	    	if (list.size() < 25)
+	    		return 25; //super.getRowCount()
+	    	else
+	    		return list.size();
+	    }
 
 	    @Override
 	    public Object getValueAt(int row, int column) {
@@ -530,6 +515,19 @@ public class Main extends javax.swing.JFrame
 			data[row][col] = value;
 			fireTableCellUpdated(row, col);
 		}
+		
+		public void updateData()
+		{
+			data = new Object[list.size()][5];
+			for (int i = 0; i < data.length; i++)
+			{
+				data[i][0] = statusToSymbol(list.get(i).getStatus());
+				data[i][1] = i + 1;
+				data[i][2] = "  " + list.get(i).getDescription();
+				data[i][3] = list.get(i).getDueDate();
+				data[i][4] = list.get(i).getOptionalDate();
+			}
+		}
 	}
 
 	private void onAddClicked(java.awt.event.ActionEvent evt)
@@ -552,7 +550,7 @@ public class Main extends javax.swing.JFrame
 
 	private void onDeleteClicked(java.awt.event.ActionEvent evt)
 	{
-		if (listTable.getSelectedRow() < list.size())
+		if (listTable.getSelectedRow() < list.size()&&listTable.getSelectedRow() > -1)
 		{
 			list.remove(listTable.getSelectedRow());
 			refreshTable();
