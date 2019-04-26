@@ -68,6 +68,7 @@ public class Main extends javax.swing.JFrame
 		session = new ArrayList<Item>();
 		initComponents();
 
+		refreshTable();
 		enableItemPreset(); // Comment this out to disable preset.
 	}
 
@@ -127,7 +128,11 @@ public class Main extends javax.swing.JFrame
 
 	public static void addToList(Item item, int priority)
 	{
-		if (priority == -1) // add a completed item
+		if (list.size() == 0 || priority == 0) // add an item to the top of the list
+		{
+			list.add(item);
+		}
+		else if (priority == -1) // add a completed item
 		{
 			int index = 0;
 			for (Item i : list)
@@ -137,10 +142,6 @@ public class Main extends javax.swing.JFrame
 				index++;
 			}
 			list.add(index, item);
-		}
-		else if (priority == 0) // add an item to the top of the list
-		{
-			list.add(priority, item);
 		}
 		else // add an item before completed/deleted items
 		{
@@ -179,7 +180,7 @@ public class Main extends javax.swing.JFrame
 		// set up data[][] for refreshing the table
 		tableModel newModel = new tableModel();
 		newModel.updateData();
-		
+
 		// display data to table
 		listTable.setModel(newModel);
 		veryElegantFormattingForJTable();
@@ -278,9 +279,11 @@ public class Main extends javax.swing.JFrame
 		{
 			public void actionPerformed(java.awt.event.ActionEvent evt)
 			{
-				try {
+				try
+				{
 					onSaveClicked(evt);
-				} catch (IOException e) {
+				} catch (IOException e)
+				{
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
@@ -292,9 +295,11 @@ public class Main extends javax.swing.JFrame
 		{
 			public void actionPerformed(java.awt.event.ActionEvent evt)
 			{
-				try {
+				try
+				{
 					onRestoreClicked(evt);
-				} catch (IOException e) {
+				} catch (IOException e)
+				{
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
@@ -326,8 +331,7 @@ public class Main extends javax.swing.JFrame
 						{ null, null, null, null, null }, { null, null, null, null, null }, { null, null, null, null, null },
 						{ null, null, null, null, null }, { null, null, null, null, null }, { null, null, null, null, null },
 						{ null, null, null, null, null }, { null, null, null, null, null }, { null, null, null, null, null },
-						{ null, null, null, null, null }, { null, null, null, null, null }, { null, null, null, null, null },
-						{ null, null, null, null, null }, { null, null, null, null, null }, },
+						{ null, null, null, null, null }, { null, null, null, null, null }, { null, null, null, null, null } },
 				new String[] { "Status", "Priority", "Description", "Due", "Start/End" }));
 
 		TableRowSorter<TableModel> sorter = new TableRowSorter<>(listTable.getModel());
@@ -416,90 +420,97 @@ public class Main extends javax.swing.JFrame
 			return c;
 		}
 	}
-	
-	public class customTable extends JTable {
 
-	    @Override
-	    public int getRowCount() {
-	    	if (list.size() < 25)
-	    		return 25; //super.getRowCount()
-	    	else
-	    		return list.size();
-	    }
+	public class customTable extends JTable
+	{
 
-	    @Override
-	    public Object getValueAt(int row, int column) {
-	        if(row < super.getRowCount()) {
-	            return super.getValueAt(row, column);
-	        }
-	        return ""; // value to display in new line
-	    }
+		@Override
+		public int getRowCount()
+		{
+			if (list.size() < 25)
+				return 25; // super.getRowCount()
+			else
+				return list.size();
+		}
 
-	    @Override
-	    public int convertRowIndexToModel(int viewRowIndex) {
-	        if(viewRowIndex < super.getRowCount()) {
-	            return super.convertRowIndexToModel(viewRowIndex);
-	        }
-	        return super.getRowCount(); // can't convert our faked row
-	    }
+		@Override
+		public Object getValueAt(int row, int column)
+		{
+			if (row < super.getRowCount())
+			{
+				return super.getValueAt(row, column);
+			}
+			return ""; // value to display in new line
+		}
 
-	    @Override
-	    public void setValueAt(Object aValue, int row, int column) {
-	        if(row < super.getRowCount()) {
-	            super.setValueAt(aValue, row, column);
-	        }
-	        else {
-	            Object[] rowData = new Object[getColumnCount()];
-	            Arrays.fill(rowData, "");
-	            rowData[convertColumnIndexToModel(column)] = aValue;
-	            // That's where we insert the new row.
-	            // Change this to work with your model.
-	            ((DefaultTableModel)getModel()).addRow(rowData);
-	        }
-	    }
+		@Override
+		public int convertRowIndexToModel(int viewRowIndex)
+		{
+			if (viewRowIndex < super.getRowCount())
+			{
+				return super.convertRowIndexToModel(viewRowIndex);
+			}
+			return super.getRowCount(); // can't convert our faked row
+		}
+
+		@Override
+		public void setValueAt(Object aValue, int row, int column)
+		{
+			if (row < super.getRowCount())
+			{
+				super.setValueAt(aValue, row, column);
+			}
+			else
+			{
+				Object[] rowData = new Object[getColumnCount()];
+				Arrays.fill(rowData, "");
+				rowData[convertColumnIndexToModel(column)] = aValue;
+				// That's where we insert the new row.
+				// Change this to work with your model.
+				((DefaultTableModel) getModel()).addRow(rowData);
+			}
+		}
 	}
-	
+
 	static class tableModel extends AbstractTableModel
 	{
 		private String[] columnNames = { "Status", "Priority", "Description", "Due", "Start/End" };
-		private Object[][] data = new Object[][] { { null, null, null, null, null }, { null, null, null, null, null },
-				{ null, null, null, null, null }, { null, null, null, null, null }, { null, null, null, null, null },
-				{ null, null, null, null, null }, { null, null, null, null, null }, { null, null, null, null, null },
-				{ null, null, null, null, null }, { null, null, null, null, null }, { null, null, null, null, null },
-				{ null, null, null, null, null }, { null, null, null, null, null }, { null, null, null, null, null },
-				{ null, null, null, null, null }, { null, null, null, null, null }, { null, null, null, null, null },
-				{ null, null, null, null, null }, { null, null, null, null, null }, { null, null, null, null, null },
-				{ null, null, null, null, null }, { null, null, null, null, null }, { null, null, null, null, null },
-				{ null, null, null, null, null }, { null, null, null, null, null }, { null, null, null, null, null },};
-		//private ArrayList<Object[]> data = new ArrayList<Object[]>();
-				
+		private Object[][] data;
+		// private ArrayList<Object[]> data = new ArrayList<Object[]>();
+
 		public int getColumnCount()
 		{
+			updateData();
 			return columnNames.length;
 		}
 
 		public int getRowCount()
 		{
+			updateData();
 			return data.length;
 		}
 
 		public String getColumnName(int col)
 		{
+			updateData();
 			return columnNames[col];
 		}
 
 		public Object getValueAt(int row, int col)
 		{
+			updateData();
 			return data[row][col];
 		}
 
 		public Class getColumnClass(int c)
 		{
+			updateData();
 			return getValueAt(0, c).getClass();
 		}
 
 		public boolean isCellEditable(int row, int col)
 		{
+			updateData();
 			if (col < 2)
 			{
 				return false;
@@ -512,15 +523,24 @@ public class Main extends javax.swing.JFrame
 
 		public void setValueAt(Object value, int row, int col)
 		{
+			updateData();
 			data[row][col] = value;
 			fireTableCellUpdated(row, col);
 		}
-		
+
 		public void updateData()
 		{
-			data = new Object[list.size()][5];
+			int displayCount = list.size();
+			for (Item i: list)
+			{
+				if (i.getStatus() == Status.DELETED)
+					displayCount --;
+			}
+			data = new Object[displayCount][5];
 			for (int i = 0; i < data.length; i++)
 			{
+				if (list.get(i).getStatus() == Status.DELETED)
+					break;
 				data[i][0] = statusToSymbol(list.get(i).getStatus());
 				data[i][1] = i + 1;
 				data[i][2] = "  " + list.get(i).getDescription();
@@ -550,9 +570,14 @@ public class Main extends javax.swing.JFrame
 
 	private void onDeleteClicked(java.awt.event.ActionEvent evt)
 	{
-		if (listTable.getSelectedRow() < list.size()&&listTable.getSelectedRow() > -1)
+		if (listTable.getSelectedRow() < list.size() && listTable.getSelectedRow() > -1
+				&& list.get(listTable.getSelectedRow()).getStatus() != Status.DELETED)
 		{
+			Item temp = list.get(listTable.getSelectedRow());
+			temp.setStatus(Status.DELETED);
 			list.remove(listTable.getSelectedRow());
+			list.add(temp);
+
 			refreshTable();
 		}
 
@@ -561,39 +586,45 @@ public class Main extends javax.swing.JFrame
 	private void onSaveClicked(java.awt.event.ActionEvent evt) throws IOException
 	{
 		System.out.println("Save");
-		try {
-            FileOutputStream fileOut = new FileOutputStream(file);
-            ObjectOutputStream objectOut = new ObjectOutputStream(fileOut);
-            for (Item i : list) {
-            	objectOut.writeObject(i);
-            }
-            objectOut.close();
-            fileOut.close();
-            System.out.println("The Object was succesfully written to a file");
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
-		
+		try
+		{
+			FileOutputStream fileOut = new FileOutputStream(file);
+			ObjectOutputStream objectOut = new ObjectOutputStream(fileOut);
+			for (Item i : list)
+			{
+				objectOut.writeObject(i);
+			}
+			objectOut.close();
+			fileOut.close();
+			System.out.println("The Object was succesfully written to a file");
+		} catch (Exception ex)
+		{
+			ex.printStackTrace();
+		}
+
 	}
 
 	private void onRestoreClicked(java.awt.event.ActionEvent evt) throws IOException
 	{
 		System.out.println("Restore");
-		 try {
-	            FileInputStream fileIn = new FileInputStream(file);
-	            ObjectInputStream objectIn = new ObjectInputStream(fileIn);
-	            list = new ArrayList<Item>();
-	            while (fileIn.available() > 0) {
-	            	Item item = (Item)objectIn.readObject();
-	            	list.add(item);
-	            }
-	            refreshTable();
-	            objectIn.close();
-	            fileIn.close();
-	            System.out.println("The Object  was succesfully read from file");
-	        } catch (Exception ex) {
-	            ex.printStackTrace();
-	        }
+		try
+		{
+			FileInputStream fileIn = new FileInputStream(file);
+			ObjectInputStream objectIn = new ObjectInputStream(fileIn);
+			list = new ArrayList<Item>();
+			while (fileIn.available() > 0)
+			{
+				Item item = (Item) objectIn.readObject();
+				list.add(item);
+			}
+			refreshTable();
+			objectIn.close();
+			fileIn.close();
+			System.out.println("The Object  was succesfully read from file");
+		} catch (Exception ex)
+		{
+			ex.printStackTrace();
+		}
 	}
 
 	private void onPrintClicked(java.awt.event.ActionEvent evt) throws IOException
