@@ -533,13 +533,13 @@ public class Main extends javax.swing.JFrame
 			int displayCount = list.size();
 			for (Item i: list)
 			{
-				if (i.getStatus() == Status.DELETED)
+				if (i.getStatus() == Status.COMPLETED || i.getStatus() == Status.DELETED)
 					displayCount --;
 			}
 			data = new Object[displayCount][5];
 			for (int i = 0; i < data.length; i++)
 			{
-				if (list.get(i).getStatus() == Status.DELETED)
+				if (list.get(i).getStatus() == Status.COMPLETED || list.get(i).getStatus() == Status.DELETED)
 					break;
 				data[i][0] = statusToSymbol(list.get(i).getStatus());
 				data[i][1] = i + 1;
