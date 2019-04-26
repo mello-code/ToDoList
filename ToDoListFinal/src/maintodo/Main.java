@@ -57,6 +57,7 @@ public class Main extends javax.swing.JFrame
 	private JFrame frame;
 	private JTable table;
 	private static int selectedItem;
+	private static int rowCount;
 	private static ArrayList<Item> list;
 	private static ArrayList<Item> session;
 	static File file = new File("ObjectIO.txt");
@@ -66,6 +67,7 @@ public class Main extends javax.swing.JFrame
 		setTitle("To Do List");
 		list = new ArrayList<Item>();
 		session = new ArrayList<Item>();
+		rowCount = 25;
 		initComponents();
 
 		enableItemPreset(); // Comment this out to disable preset.
@@ -432,11 +434,13 @@ public class Main extends javax.swing.JFrame
 	
 	public class customTable extends JTable {
 
-	    @Override
-	    public int getRowCount() {
-	        // fake an additional row
-	        return super.getRowCount() + 1;
-	    }
+//	    @Override
+//	    public int getRowCount() {
+//	    	if (list.size() < 25)
+//	    		return 25; //super.getRowCount()
+//	    	else
+//	    		return list.size();
+//	    }
 
 	    @Override
 	    public Object getValueAt(int row, int column) {
@@ -479,8 +483,11 @@ public class Main extends javax.swing.JFrame
 				{ null, null, null, null, null }, { null, null, null, null, null }, { null, null, null, null, null },
 				{ null, null, null, null, null }, { null, null, null, null, null }, { null, null, null, null, null },
 				{ null, null, null, null, null }, { null, null, null, null, null }, { null, null, null, null, null },
+				{ null, null, null, null, null }, { null, null, null, null, null }, { null, null, null, null, null },
+				{ null, null, null, null, null }, { null, null, null, null, null }, { null, null, null, null, null },
 				{ null, null, null, null, null }, { null, null, null, null, null }, { null, null, null, null, null },};
-
+		//private ArrayList<Object[]> data = new ArrayList<Object[]>();
+				
 		public int getColumnCount()
 		{
 			return columnNames.length;
